@@ -33,7 +33,7 @@ Shader "Live2D Cubism/Unlit"
 	{
 		Tags
 		{
-			"Queue"				= "Transparent"
+			"Queue"				= "Transparent+1000"
 			"IgnoreProjector"	= "True"
 			"RenderType"		= "Transparent"
 			"PreviewType"		= "Plane"

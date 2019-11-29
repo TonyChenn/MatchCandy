@@ -1,0 +1,24 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Epsilon.moc3",
+		"Textures": [
+			"Epsilon.1024/texture_00.png",
+			"Epsilon.1024/texture_01.png",
+			"Epsilon.1024/texture_02.png"
+		],
+		"DisplayInfo": "Epsilon.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}
