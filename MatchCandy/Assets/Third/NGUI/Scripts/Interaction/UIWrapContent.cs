@@ -309,4 +309,12 @@ public class UIWrapContent : MonoBehaviour
 			onInitializeItem(item.gameObject, index, realIndex);
 		}
 	}
+
+    public void UpdateAllItem()
+    {
+        for (int i = 0; i < mChildren.Count; i++)
+        {
+            UpdateItem(mChildren[i], i);
+        }
+    }
 }
