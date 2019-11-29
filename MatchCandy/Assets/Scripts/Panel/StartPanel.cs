@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Bmob.util;
+using cn.bmob.io;
+using Common.Messenger;
+using System;
 
 namespace Modules.UI
 {
@@ -23,6 +27,33 @@ namespace Modules.UI
             base.InitWndOnAwake();
             UIEventListener.Get(btnEnter).onClick = OnEnterClick;
         }
+        public override void RegisterMessage()
+        {
+            base.RegisterMessage();
+            Messenger.AddListener(MessengerEventDef.Str_CheckLogin, checkLogin);
+        }
+        public override void RemoveMessage()
+        {
+            base.RemoveMessage();
+            Messenger.RemoveListener(MessengerEventDef.Str_CheckLogin, checkLogin);
+        }
+
+
+
+        void checkLogin()
+        {
+            GameUser curUser = BmobUser.CurrentUser as GameUser;
+            if (curUser == null)
+            {
+                //显示登录框
+                UIManger.ShowUISync(UIType.UI_Login, null);
+            }
+            else
+            {
+                Debug.Log("======登录成功，欢迎" + curUser.username);
+            }
+        }
+
         void OnEnterClick(GameObject go)
         {
             UIManger.ShowUISync(UIType.MainPanel,UIType.None, null, curUIID);

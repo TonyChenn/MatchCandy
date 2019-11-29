@@ -274,6 +274,7 @@ namespace Modules.UI
                             DestroyWndSync(hideID);
                         }
                     }
+                    curCacheUIID.Remove(hideID);
                 }
             }
         }

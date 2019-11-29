@@ -9,6 +9,8 @@ namespace Modules.UI
     {
         [SerializeField]
         GameObject child;
+        [SerializeField]
+        UILabel Tip;
     
         BackAndForthWindow Manger;
 
@@ -26,23 +28,27 @@ namespace Modules.UI
         public override void RegisterMessage()
         {
             base.RegisterMessage();
-            Messenger<bool>.AddListener(MessengerEventDef.ShowLoading, ShowHandler);
+            Messenger<bool,string>.AddListener(MessengerEventDef.ShowLoading, ShowHandler);
         }
         public override void RemoveMessage()
         {
             base.RemoveMessage();
-            Messenger<bool>.RemoveListener(MessengerEventDef.ShowLoading, ShowHandler);
+            Messenger<bool,string>.RemoveListener(MessengerEventDef.ShowLoading, ShowHandler);
         }
 
-        void ShowHandler(bool show)
+        void ShowHandler(bool show,string msg)
         {
             if (show)
             {
                 child.SetActive(true);
                 Manger.Show();
+                Tip.text = msg;
             }
             else
+            {
+                Tip.text = "";
                 Manger.Hide();
+            }
         }
     }
 }

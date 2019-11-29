@@ -13,7 +13,10 @@ namespace Common.Messenger
 
         public const string ShowLoading = "ShowLoading";
         public const string ShowUIDialog = "ShowUIDialog";
+        public const string Str_ShowToast = "Str_ShowToast";
 
         public const string PlayButtonClickSound = "PlayButtonClickSound";
+
+        public const string Str_CheckLogin = "Str_CheckLogin";
     }
 }

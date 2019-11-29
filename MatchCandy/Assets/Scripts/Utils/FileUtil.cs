@@ -7,10 +7,6 @@ using UnityEngine;
 namespace Modules.UI
 {
     public class FileUtils{
-        public static void CreateFile(string path)
-        {
-            File.Create(path).Dispose();
-        }
 
         /// <summary>
         /// 生成所有panel的Json
@@ -36,9 +32,7 @@ namespace Modules.UI
             string json = LitJson.JsonMapper.ToJson(panelList);
             string fileName = Full_JsonPath + "/panel.json";
             Debug.Log(fileName);
-            if (!File.Exists(fileName))
-                File.Create(fileName).Dispose();
-            File.WriteAllText(fileName, json);
+            WriteFile(fileName, json);
 
             Debug.Log("Panel Json生成成功");
             GeneratePanelEnumFile(uiPanelsPath, jsonPath);
@@ -66,9 +60,7 @@ namespace Modules.UI
             builder.AppendLine("}");
 
             string str_path = Application.dataPath + path + "/UIType.cs";
-            if (!File.Exists(str_path))
-                File.Create(str_path).Dispose();
-            File.WriteAllText(str_path, builder.ToString());
+            WriteFile(str_path, builder.ToString());
 
             Debug.Log("Panel Enum 生成成功");
         }
@@ -82,6 +74,26 @@ namespace Modules.UI
                 Debug.LogError("Panel json 路径不存在");
             return json;
         }
+        public static void WriteFile(string path,string content)
+        {
+            if (!File.Exists(path))
+                File.Create(path).Dispose();
+            File.WriteAllText(path, content);
+        }
+
+        public static string GameLevelJson
+        {
+            get
+            {
+                return ReadFile(Application.persistentDataPath + "/level.json");
+            }
+            set
+            {
+                Debug.Log(Application.persistentDataPath);
+                WriteFile(Application.persistentDataPath + "/level.json", value);
+            }
+        }
+
     }
 
     class Panel

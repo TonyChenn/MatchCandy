@@ -15,19 +15,19 @@ namespace Bmob.util
         {
             get { return _instance; }
         }
-	    void Start () {
+        void Start() {
             DontDestroyOnLoad(this.gameObject);
             _instance = this;
             BmobDebug.Register(print);
             BmobDebug.level = BmobDebug.Level.TRACE;
             Bmob = GetComponent<BmobUnity>();
-	    }
+        }
 
         /// <summary>
         /// 注册账号
         /// </summary>
         /// <param name="mail">用于找回密码</param>
-        public void Register(string userName,string password,string mail)
+        public void Register(string userName, string password, string mail)
         {
             GameUser user = new GameUser();
             user.username = userName;
@@ -35,8 +35,8 @@ namespace Bmob.util
             user.email = mail;
             Bmob.Signup(user, (resp, exception) =>
             {
-                if(exception!=null)
-                    Debug.Log("注册失败,原因：" + exception.Message);
+                if (exception != null)
+                    UIMessageMgr.ShowDialog("注册失败,原因:" + exception.Message);
                 else
                     Debug.Log("注册成功");
             });
@@ -45,40 +45,50 @@ namespace Bmob.util
         /// <summary>
         /// 登录
         /// </summary>
-        public void Login(string userName,string password)
+        public void Login(string userName, string password)
         {
             Bmob.Login<GameUser>(userName, password, (resp, exception) =>
             {
                 if (exception != null)
-                    Debug.Log("登录失败,原因" + exception.Message);
+                    UIMessageMgr.ShowDialog("登录失败,原因:" + exception.Message);
                 else
                     Debug.Log("登录成功");
             });
         }
+
         /// <summary>
-        /// 获取当前用户
+        /// 更新用户数据
         /// </summary>
-        public GameUser GetCurrentUser
+        public void UpdateUserInfo(GameUser user)
         {
-            get
+            Bmob.UpdateUser(user.objectId, user, user.sessionToken, (resp, ex) =>
             {
-                if (GameUser.CurrentUser == null) return null;
-                else
-                    return GameUser.CurrentUser as GameUser;
-            }
+                if (ex != null)
+                {
+                    Debug.LogWarning("用户数据保存失败, 原因为：" + ex.Message);
+                    return;
+                }
+                Debug.Log("用户数据更新成功");
+            });
         }
 
         /// <summary>
         /// 查询所有商品
         /// </summary>
-        public List<Shop> QueryShopAllItems()
+        public List<UserLevel> QueryUSerAllLevels(string userName)
         {
-            List<Shop> list = null;
+            int levelCount = QueryUserLevelCount(userName);
+            Debug.Log(userName + ",LevelCount: " + levelCount);
+
+            List<UserLevel> list = null;
             BmobQuery query = new BmobQuery();
-            query.WhereContainedIn("type","1","2");
-            Bmob.Find<Shop>("Shop", query, (resp, exception) =>
+            query.Limit(20);
+
+            query.WhereEqualTo("userName", userName);
+            query.OrderBy("levelId");
+            Bmob.Find<UserLevel>("UserLevel", query, (resp, exception) =>
             {
-                if(exception!=null)
+                if (exception != null)
                     Debug.Log("商品查询失败,原因：" + exception.Message);
                 else
                     list = resp.results;
@@ -86,24 +96,33 @@ namespace Bmob.util
             return list;
         }
 
-        /// <summary>
-        /// 查询所有关卡信息
-        /// </summary>
-        public List<GameLevel> QueryAllGameLevel()
+        public int QueryUserLevelCount(string userName)
         {
-            List<GameLevel> list = null;
+            int result = -1;
             BmobQuery query = new BmobQuery();
-            query.WhereGreaterThan("levelId", "0");
-            Bmob.Find<GameLevel>("GameLevel", query, (resp, exception) =>
+            query.WhereEqualTo("userName", userName);
+            query.Count();
+            Bmob.Find<UserLevel>("UserLevel", query, (resp, exp) =>
             {
-                if (exception != null)
-                    Debug.Log("获取所有关卡失败,原因：" + exception.Message);
+                if (exp != null)
+                {
+                    Debug.LogWarning("查询UserLevel数量失败，原因：" + exp.Message);
+                    return;
+                }
                 else
-                    list = resp.results;
+                {
+                    result = resp.count.Get();
+                }
             });
-            return list;
+            return result;
         }
     }
+
+
+
+
+
+
 
     #region 服务器端DAO
     /// <summary>
@@ -128,53 +147,29 @@ namespace Bmob.util
         }
     }
 
+
     /// <summary>
-    /// 关卡表
+    /// UI关卡
     /// </summary>
-    public class GameLevel:BmobTable
+    public class UserLevel:BmobTable
     {
-        /// <summary>
-        /// 地图ID
-        /// </summary>
         public BmobInt levelId { get; set; }
-        /// <summary>
-        /// 地图中的障碍物位置（x:y）
-        /// </summary>
-        public List<string> map { get; set; }
-        /// <summary>
-        /// 玩法类型(-1.限时达到固定分数，0-7对应Unity不同类型糖果)
-        /// </summary>
-        public string type { get; set; }
-        public string mode { get; set; }
+        public BmobInt starCount { get; set; }
+        public string userName { get; set; }
 
         public override void readFields(BmobInput input)
         {
             base.readFields(input);
             this.levelId = input.getInt("levelId");
-            this.map = input.getList<string>("map");
-            this.type = input.getString("type");
-            this.mode = input.getString("mode");
+            this.starCount = input.getInt("starCount");
+            this.userName = input.getString("userName");
         }
-    }
-
-    /// <summary>
-    /// 商城表
-    /// </summary>
-    public class Shop:BmobTable
-    {
-        public string name { get; set; }
-        public BmobInt price { get; set; }
-        /// <summary>
-        /// 1.金币，2钻石
-        /// </summary>
-        public BmobInt type { get; set; }
-
-        public override void readFields(BmobInput input)
+        public override void write(BmobOutput output, bool all)
         {
-            base.readFields(input);
-            this.name = input.getString("name");
-            this.type = input.getInt("type");
-            this.price = input.getInt("price");
+            base.write(output, all);
+            output.Put("levelId", this.levelId);
+            output.Put("starCount", this.starCount);
+            output.Put("userName", this.userName);
         }
     }
     #endregion

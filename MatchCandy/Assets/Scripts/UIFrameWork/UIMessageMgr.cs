@@ -29,7 +29,23 @@ public class UIMessageMgr
     #region MessageLocading
     public static void ShowLoading(bool isShow)
     {
-        Messenger<bool>.Broadcast(MessengerEventDef.ShowLoading, isShow);
+        if (isShow)
+            ShowLoading(isShow, "加载中...");
+        else
+            ShowLoading(isShow, "");
+    }
+    public static void ShowLoading(bool isShow,string msg)
+    {
+        Messenger<bool,string>.Broadcast(MessengerEventDef.ShowLoading, isShow, msg);
+    }
+
+    public static void ToastMsg(string msg)
+    {
+        ToastMsg(msg, 2f);
+    }
+    public static void ToastMsg(string msg,float duration)
+    {
+        Messenger<string, float>.Broadcast(MessengerEventDef.Str_ShowToast, msg, duration);
     }
     #endregion
 }

@@ -1,1 +1,1 @@
-[{"Name":"MainPanel","Path":"Panel/MainPanel"},{"Name":"StartPanel","Path":"Panel/StartPanel"},{"Name":"UI_Dialog","Path":"Panel/UI_Dialog"},{"Name":"UI_Loading","Path":"Panel/UI_Loading"}]
+[{"Name":"MainPanel","Path":"Panel/MainPanel"},{"Name":"StartPanel","Path":"Panel/StartPanel"},{"Name":"UI_Dialog","Path":"Panel/UI_Dialog"},{"Name":"UI_Loading","Path":"Panel/UI_Loading"},{"Name":"UI_Login","Path":"Panel/UI_Login"},{"Name":"UI_MapPanel","Path":"Panel/UI_MapPanel"},{"Name":"UI_Toast","Path":"Panel/UI_Toast"}]
