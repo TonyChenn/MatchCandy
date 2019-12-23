@@ -1,21 +1,50 @@
 ﻿using cn.bmob.api;
 using cn.bmob.io;
 using cn.bmob.tools;
+using Common.Messenger;
+using Modules.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Bmob.util
 {
-    public class BmobUtil : MonoBehaviour {
-
+    public class BmobUtil : MonoBehaviour
+    {
         static BmobUtil _instance;
         static BmobUnity Bmob;
+        Dictionary<int, UserLevel> userLevelDict = new Dictionary<int, UserLevel>();
+        public List<UserLevel> m_Config = new List<UserLevel>();
+        public Dictionary<int, UserLevel> UserLevelDict
+        {
+            get
+            {
+                if (Singlton.CurUser == null)
+                {
+                    UIMessageMgr.ShowDialog("提示", "登录信息获取失败，请重新登录", () =>
+                    {
+                        Application.Quit();
+                    });
+                    return null;
+                }
+                else
+                {
+                    userLevelDict.Clear();
+                    foreach (var item in m_Config)
+                        userLevelDict.Add(item.levelId.Get(), item);
+
+                    return userLevelDict;
+                }
+            }
+        }
+
         public static BmobUtil Singlton
         {
             get { return _instance; }
         }
-        void Start() {
+        void Start()
+        {
             DontDestroyOnLoad(this.gameObject);
             _instance = this;
             BmobDebug.Register(print);
@@ -32,13 +61,18 @@ namespace Bmob.util
             GameUser user = new GameUser();
             user.username = userName;
             user.password = password;
+            user.coin = 0;
+            user.gem = 0;
             user.email = mail;
             Bmob.Signup(user, (resp, exception) =>
             {
                 if (exception != null)
-                    UIMessageMgr.ShowDialog("注册失败,原因:" + exception.Message);
+                    UIMessageMgr.ShowDialog("注册失败，原因：" + exception.Message);
                 else
-                    Debug.Log("注册成功");
+                {
+                    UIMessageMgr.ToastMsg("注册成功，欢迎" + userName);
+                    Messenger.Broadcast(MessengerEventDef.Str_RegisterSuccess);
+                }
             });
         }
 
@@ -52,8 +86,26 @@ namespace Bmob.util
                 if (exception != null)
                     UIMessageMgr.ShowDialog("登录失败,原因:" + exception.Message);
                 else
-                    Debug.Log("登录成功");
+                {
+                    UIMessageMgr.ToastMsg("登录成功，欢迎回来");
+                    Messenger.Broadcast(MessengerEventDef.Str_LoginSuccess);
+                    PlayerPrefsUtil.CoinCount = CurUser.coin.Get();
+                    StartCoroutine(Singlton.QueryLevels(userName));
+                }
             });
+        }
+
+        public GameUser CurUser
+        {
+            get { return BmobUser.CurrentUser as GameUser; }
+        }
+
+        /// <summary>
+        /// 注销登录
+        /// </summary>
+        public void Logout()
+        {
+            BmobUser.LogOut();
         }
 
         /// <summary>
@@ -73,62 +125,68 @@ namespace Bmob.util
         }
 
         /// <summary>
-        /// 查询所有商品
+        /// 查询所有关卡信息
         /// </summary>
-        public List<UserLevel> QueryUSerAllLevels(string userName)
+        IEnumerator QueryLevels(string userName)
         {
-            int levelCount = QueryUserLevelCount(userName);
-            Debug.Log(userName + ",LevelCount: " + levelCount);
-
-            List<UserLevel> list = null;
-            BmobQuery query = new BmobQuery();
-            query.Limit(20);
-
-            query.WhereEqualTo("userName", userName);
-            query.OrderBy("levelId");
-            Bmob.Find<UserLevel>("UserLevel", query, (resp, exception) =>
+            bool isLoad = false;
+            UIMessageMgr.ShowLoading(true, "正在加载关卡信息");
+            //根据数量查询所有
+            Debug.Log("正在查询" + userName);
+            BmobQuery _query = new BmobQuery();
+            _query.WhereEqualTo("userName", userName);
+            _query.OrderBy("levelId");
+            Bmob.Find<UserLevel>("UserLevel", _query, (res, exception) =>
             {
+                isLoad = true;
+                UIMessageMgr.ShowLoading(false);
                 if (exception != null)
-                    Debug.Log("商品查询失败,原因：" + exception.Message);
+                    Debug.Log("关卡查询失败,原因：" + exception.Message);
                 else
-                    list = resp.results;
+                    m_Config = res.results;
             });
-            return list;
+            while(!isLoad)
+            {
+                yield return new WaitForSeconds(1);
+            }
         }
 
-        public int QueryUserLevelCount(string userName)
+        public void InsertLevel(string userName, int levelID, int starCount)
         {
-            int result = -1;
-            BmobQuery query = new BmobQuery();
-            query.WhereEqualTo("userName", userName);
-            query.Count();
-            Bmob.Find<UserLevel>("UserLevel", query, (resp, exp) =>
+            UserLevel level = new UserLevel();
+            level.userName = userName;
+            level.levelId = levelID;
+            level.starCount = starCount;
+            Bmob.Create("UserLevel", level, (resp, ex) =>
             {
-                if (exp != null)
-                {
-                    Debug.LogWarning("查询UserLevel数量失败，原因：" + exp.Message);
-                    return;
-                }
+                if (ex != null)
+                    UIMessageMgr.ToastMsg("关卡" + level.levelId + "已开启");
                 else
                 {
-                    result = resp.count.Get();
+                    UIMessageMgr.ToastMsg("关卡加载失败");
+                    Debug.LogError("注册开启第一关失败，原因：" + ex.Message);
                 }
             });
-            return result;
+        }
+
+        public void MotifyLevel(string userName, int LevelId, int starCount)
+        {
+
+        }
+
+        public UserLevel GetUserLevelConfigById(int levelId)
+        {
+            if (UserLevelDict.ContainsKey(levelId))
+                return UserLevelDict[levelId];
+            return null;
         }
     }
-
-
-
-
-
-
 
     #region 服务器端DAO
     /// <summary>
     /// 用户表
     /// </summary>
-    public class GameUser:BmobUser
+    public class GameUser : BmobUser
     {
         public BmobInt coin { get; set; }
         public BmobInt gem { get; set; }
@@ -151,11 +209,21 @@ namespace Bmob.util
     /// <summary>
     /// UI关卡
     /// </summary>
-    public class UserLevel:BmobTable
+    public class UserLevel : BmobTable
     {
         public BmobInt levelId { get; set; }
         public BmobInt starCount { get; set; }
         public string userName { get; set; }
+
+        /// <summary>
+        /// 仅供本地使用
+        /// </summary>
+        private int haveStar = 0;
+        public int HaveStar
+        {
+            get { return haveStar; }
+            set { haveStar = value; }
+        }
 
         public override void readFields(BmobInput input)
         {

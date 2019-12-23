@@ -25,6 +25,7 @@ namespace Modules.UI
         public override void InitWndOnAwake()
         {
             base.InitWndOnAwake();
+            Debug.Log("StartPanel is Loaded!");
             UIEventListener.Get(btnEnter).onClick = OnEnterClick;
         }
         public override void RegisterMessage()
@@ -42,15 +43,16 @@ namespace Modules.UI
 
         void checkLogin()
         {
-            GameUser curUser = BmobUser.CurrentUser as GameUser;
-            if (curUser == null)
+            if (BmobUtil.Singlton.CurUser == null)
             {
                 //显示登录框
                 UIManger.ShowUISync(UIType.UI_Login, null);
+
+                //UIMessageMgr.ToastMsg("自动登录成功");
             }
             else
             {
-                Debug.Log("======登录成功，欢迎" + curUser.username);
+                UIMessageMgr.ToastMsg("自动登录成功");
             }
         }
 

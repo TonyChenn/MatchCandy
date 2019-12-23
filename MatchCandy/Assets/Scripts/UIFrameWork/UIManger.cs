@@ -24,7 +24,9 @@ namespace Modules.UI
 
         public UIManger()
         {
-            string json = FileUtils.ReadFile(Application.dataPath + "/Scripts/UIFrameWork//PanelJson/panel.json");
+            TextAsset jsonAsset = Resources.Load("PanelJson/panel") as TextAsset;
+            string json = jsonAsset.text;
+            //string json = FileUtils.ReadFile(Application.dataPath + "/Scripts/UIFrameWork/PanelJson/panel.json");
             panelPathDict.Clear();
             if(!string.IsNullOrEmpty(json))
             {
@@ -151,6 +153,10 @@ namespace Modules.UI
         public static void ShowUISync(UIType showID, object exData)
         {
             ShowUISync(showID, UIType.None, false, exData, UIType.None);
+        }
+        public static void ShowUISync(UIType showID,object exData,UIType hideID)
+        {
+            ShowUISync(showID, UIType.None, null, hideID);
         }
 
         public static void ShowUISync(UIType showID, UIType preID, object exData, UIType hideID)

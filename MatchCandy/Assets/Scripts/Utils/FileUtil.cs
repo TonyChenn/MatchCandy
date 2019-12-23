@@ -16,7 +16,7 @@ namespace Modules.UI
         public static void CreatePanelsJsonFile(string uiPanelsPath,string jsonPath)
         {
             string Full_PanelPrefabsFolderPath = Application.dataPath + uiPanelsPath;
-            string Full_JsonPath = Application.dataPath + jsonPath;
+            string Full_JsonPath = jsonPath;
 
             DirectoryInfo fileInfos = new DirectoryInfo(Full_PanelPrefabsFolderPath);
 
@@ -30,7 +30,7 @@ namespace Modules.UI
                 panelList.Add(panel);
             }
             string json = LitJson.JsonMapper.ToJson(panelList);
-            string fileName = Full_JsonPath + "/panel.json";
+            string fileName = Application.dataPath+ Full_JsonPath + "/panel.json";
             Debug.Log(fileName);
             WriteFile(fileName, json);
 
@@ -71,7 +71,7 @@ namespace Modules.UI
             if (File.Exists(path))
                 json = File.ReadAllText(path);
             else
-                Debug.LogError("Panel json 路径不存在");
+                Debug.LogError("json 路径不存在");
             return json;
         }
         public static void WriteFile(string path,string content)

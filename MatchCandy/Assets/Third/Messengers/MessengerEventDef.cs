@@ -18,5 +18,9 @@ namespace Common.Messenger
         public const string PlayButtonClickSound = "PlayButtonClickSound";
 
         public const string Str_CheckLogin = "Str_CheckLogin";
+        public const string Str_LoginSuccess = "Str_LoginSuccess";
+        public const string Str_RegisterSuccess = "Str_RegisterSuccess";
+
+        public const string Str_UpdateCurrency = "Str_UpdateCurrency";
     }
 }

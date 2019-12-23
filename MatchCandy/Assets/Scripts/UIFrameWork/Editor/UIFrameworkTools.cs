@@ -10,7 +10,7 @@ public class UIFrameworkTools{
     /// </summary>
     public static string UIFrameworkRoot = "/Scripts/UIFrameWork";
     public static string UIPanelsFolderPath = "/Resources/Panel";
-    public static string UIPanelsJsonPath = UIFrameworkRoot + "/PanelJson";
+    public static string UIPanelsJsonPath = "/Resources/PanelJson";
 
     [MenuItem("UIFramework/Generate")]
 	static void Generate()

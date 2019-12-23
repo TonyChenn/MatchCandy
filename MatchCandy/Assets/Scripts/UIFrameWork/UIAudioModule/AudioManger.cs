@@ -248,6 +248,7 @@ public class AudioManger
         AS_BGM.timeSamples = (int)(AS_BGM.clip.frequency * time);
         trackBGMStartTime = AudioSettings.dspTime - time;
     }
+
 }
 public enum AudioType
 {

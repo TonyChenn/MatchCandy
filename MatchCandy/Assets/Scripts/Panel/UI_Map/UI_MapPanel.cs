@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bmob.util;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,34 +15,33 @@ namespace Modules.UI
         [SerializeField]
         GameObject BtnBack;
 
-        List<LevelDao> levelList;
-        List<UI_LevelItem> ui_items = new List<UI_LevelItem>();
+        /// <summary>
+        /// 所有关卡信息
+        /// </summary>
+        List<LevelDao> levelList = new List<LevelDao>();
+        List<UI_LevelRow> ui_Rows = new List<UI_LevelRow>();
         protected override void SetWndFlag()
         {
             this.curUIID = UIType.UI_MapPanel;
         }
+
         protected override void Awake()
         {
             base.Awake();
             levelList = LevelUtil.Singlton.LevelList;
-            contentHelper.onInitItem = OnInitItems;
             UIEventListener.Get(BtnBack).onClick = OnBackClick;
-        }
 
-        void OnInitItems(GameObject go, int wrapIndex, int minIndex, int maxIndex)
-        {
-            if (minIndex >= levelList.Count) { }
-            else
-            {
-                ui_items[wrapIndex].InitItem(levelList[minIndex]);
-            }
+            contentHelper.onInitItem = OnInitItems;
+
+            StartCoroutine(OnShowWndAsync(true));
         }
 
         public override void OnShowWnd(UIWndData wndData)
         {
             base.OnShowWnd(wndData);
             ShowMainPanel(false);
-            StartCoroutine(RefresnUI(true));
+
+            contentHelper.ResetChildPositions();
         }
         public override void OnHideWnd()
         {
@@ -55,27 +55,27 @@ namespace Modules.UI
             if (wnd != null)
                 wnd.SetActiveByRoot(state);
         }
-        IEnumerator RefresnUI(bool isResetPanel)
+
+        IEnumerator OnShowWndAsync(bool isResetPanel)
         {
-            UIMessageMgr.ShowLoading(true, "正在刷新...");
+            UIMessageMgr.ShowLoading(true, "正在加载用户数据");
 
             if (!contentHelper.WasInitPrefab)
             {
                 List<GameObject> list = contentHelper.PrepareCell(ItemPrefab);
                 for (int i = 0, iMax = list.Count; i < iMax; ++i)
                 {
-                    UI_LevelItem ctrl = list[i].GetComponent<UI_LevelItem>();
-                    ui_items.Add(ctrl);
+                    UI_LevelRow ctrl = list[i].GetComponent<UI_LevelRow>();
+                    ui_Rows.Add(ctrl);
                 }
             }
             yield return null;
-            contentHelper.SetItemRange(ui_items.Count);
-            if (isResetPanel)
-                contentHelper.ResetPanelAndClildPos();
-            else
-                contentHelper.ResetChildPositions();
-
             UIMessageMgr.ShowLoading(false);
+        }
+
+        void OnInitItems(GameObject go, int wrapIndex, int minIndex, int maxIndex)
+        {
+            ui_Rows[wrapIndex].InitData(minIndex, maxIndex, LevelUtil.Singlton.LevelList);
         }
 
         private void OnBackClick(GameObject go)

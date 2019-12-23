@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bmob.util;
+using Common.Messenger;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UIAnimation.Actions;
@@ -29,6 +31,7 @@ namespace Modules.UI
             base.Awake();
             width = Screen.width;
             height = Screen.height;
+            Debug.Log("Main panel is Loaded!");
         }
         public override void InitWndOnStart()
         {
@@ -85,7 +88,9 @@ namespace Modules.UI
 
         private void Button3ClickHandler(GameObject go)
         {
-            Debug.Log(3);
+            BmobUtil.Singlton.Logout();
+            UIManger.ShowUISync(UIType.StartPanel, null, this.UIID);
+            Messenger.Broadcast(MessengerEventDef.Str_CheckLogin);
         }
         #endregion
     }

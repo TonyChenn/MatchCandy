@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bmob.util;
+using Common.Messenger;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +23,8 @@ namespace Modules.UI
         UIInput InputA;
         [SerializeField]
         UIInput InputB;
+        [SerializeField]
+        UIInput InputC;
 
 
         static ActionType type = ActionType.Login;
@@ -34,14 +38,27 @@ namespace Modules.UI
             base.InitWndOnAwake();
             UIEventListener.Get(BtnA).onClick = OnAClick;
             UIEventListener.Get(BtnB).onClick = OnBClick;
+            Debug.Log("Login panel is Loaded!");
 
         }
         public override void OnShowWnd(UIWndData wndData)
         {
             base.OnShowWnd(wndData);
             type = ActionType.Login;
+            InputC.gameObject.SetActive(false);
         }
-
+        public override void RegisterMessage()
+        {
+            base.RegisterMessage();
+            Messenger.AddListener(MessengerEventDef.Str_LoginSuccess, LoginSuccessHandler);
+            Messenger.AddListener(MessengerEventDef.Str_RegisterSuccess, RegisterSuccessHandler);
+        }
+        public override void RemoveMessage()
+        {
+            base.RemoveMessage();
+            Messenger.RemoveListener(MessengerEventDef.Str_LoginSuccess, LoginSuccessHandler);
+            Messenger.RemoveListener(MessengerEventDef.Str_RegisterSuccess, RegisterSuccessHandler);
+        }
 
         private void OnAClick(GameObject go)
         {
@@ -51,7 +68,6 @@ namespace Modules.UI
                 LabelA.text = "去登录";
                 LabelB.text = "注册";
                 type = ActionType.Register;
-
             }
             else if(type==ActionType.Register)
             {
@@ -60,27 +76,49 @@ namespace Modules.UI
                 LabelB.text = "登录";
                 type = ActionType.Login;
             }
+            InputA.value = "";
+            InputB.value = "";
+            InputC.gameObject.SetActive(type == ActionType.Register);
         }
 
         private void OnBClick(GameObject go)
         {
             string uid = InputA.value;
             string pwd = InputB.value;
+            string mail = InputC.value;
 
-            if(string.IsNullOrEmpty(uid) || string.IsNullOrEmpty(pwd))
+            if (string.IsNullOrEmpty(uid) || string.IsNullOrEmpty(pwd))
             {
                 UIMessageMgr.ToastMsg("账号或密码不能为空!");
+                return;
+            }
+            if(type == ActionType.Register && string.IsNullOrEmpty(mail))
+            {
+                UIMessageMgr.ToastMsg("邮箱不能为空!");
                 return;
             }
 
             if(type==ActionType.Login)
             {
-
+                BmobUtil.Singlton.Login(uid, pwd);
             }
             else if(type==ActionType.Register)
             {
-
+                BmobUtil.Singlton.Register(uid, pwd, mail);
             }
+        }
+
+        void LoginSuccessHandler()
+        {
+            UIManger.HideUIWnd(UIType.UI_Login);
+        }
+        private void RegisterSuccessHandler()
+        {
+            string uid = InputA.value;
+            string pwd = InputB.value;
+            OnAClick(null);
+            InputA.value = uid;
+            InputB.value = pwd;
         }
 
         enum ActionType

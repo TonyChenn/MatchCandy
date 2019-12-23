@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Common.Messenger;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +23,9 @@ public class PlayerPrefsUtil
         }
     }
 
+    /// <summary>
+    /// 版本地址
+    /// </summary>
     public static string LocalVersionUrl
     {
         get
@@ -37,6 +41,9 @@ public class PlayerPrefsUtil
         }
     }
 
+    /// <summary>
+    /// 是否是第一次登录
+    /// </summary>
     public static bool FirstLogin
     {
         get
@@ -55,4 +62,47 @@ public class PlayerPrefsUtil
             PlayerPrefs.SetString("firstTimeLogin", result);
         }
     }
+
+    /// <summary>
+    /// 金币
+    /// </summary>
+    public static int CoinCount
+    {
+        get
+        {
+            int coinCount=0;
+            if(PlayerPrefs.HasKey("CoinCount"))
+            {
+                coinCount=PlayerPrefs.GetInt("CoinCount");
+            }
+            return coinCount;
+        }
+        set
+        {
+            PlayerPrefs.SetInt("CoinCount",value);
+            Messenger.Broadcast(MessengerEventDef.Str_UpdateCurrency);
+        }
+    }
+
+    /// <summary>
+    /// 爱心
+    /// </summary>
+    public static int HeartCount
+    {
+        get
+        {
+            int coinCount=0;
+            if(PlayerPrefs.HasKey("HeartCount"))
+            {
+                coinCount=PlayerPrefs.GetInt("HeartCount");
+            }
+            return coinCount;
+        }
+        set
+        {
+            PlayerPrefs.SetInt("HeartCount", value);
+            Messenger.Broadcast(MessengerEventDef.Str_UpdateCurrency);
+        }
+    }
+
 }

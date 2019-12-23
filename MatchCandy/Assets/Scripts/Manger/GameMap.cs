@@ -20,6 +20,29 @@ public class GameMap : MonoBehaviour {
     [SerializeField]
     GameObject[] NormalPrefabs;
 
+    //音效
+    [SerializeField]
+    AudioClip CreateRainBall;
+
+    [SerializeField]
+    AudioClip Clear;
+    [SerializeField]
+    AudioClip ClearFour;
+    [SerializeField]
+    AudioClip ClearRowColum;
+    [SerializeField]
+    AudioClip RainBowClear;
+    [SerializeField]
+    AudioClip TwoRowColum;
+    [SerializeField]
+    AudioClip Good;
+    [SerializeField]
+    AudioClip Excellent;
+    [SerializeField]
+    AudioClip Drop;
+    
+
+
     int row = 9;
     int colum = 12;
     Candy[,] candyArray;
@@ -223,7 +246,10 @@ public class GameMap : MonoBehaviour {
         else if (type == CandyType.CLEAR_COLUM)
             obj = NGUITools.AddChild(gameObject, ClearCol);
         else if (type == CandyType.CLEAR_TYPE)
+        {
             obj = NGUITools.AddChild(gameObject, ClearType);
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, CreateRainBall);
+        }
 
         obj.transform.localScale = Vector3.one;
         obj.transform.localPosition = GetPosition(x_row, y_col);
@@ -267,8 +293,19 @@ public class GameMap : MonoBehaviour {
                             xx = matchedList[index].XRow;
                             yy = matchedList[index].YCol;
                         }
-                        if (matchedList.Count == 4) type = clearType;
-                        if (matchedList.Count >= 5) type = CandyType.CLEAR_TYPE;
+                        if(matchedList.Count==3)
+                        {
+                            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, Clear);
+                        }
+                        if (matchedList.Count == 4)
+                        {
+                            type = clearType;
+                            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, ClearFour);
+                        }
+                        if (matchedList.Count >= 5)
+                        {
+                            type = CandyType.CLEAR_TYPE;
+                        }
 
                         for (int item = 0; item < matchedList.Count; item++)
                         {
@@ -468,6 +505,7 @@ public class GameMap : MonoBehaviour {
                 (a.CandyType == CandyType.TYPE_NORMOL && b.CandyType == CandyType.CLEAR_ROW))
         {
             ChangeHandler(a, b);
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, ClearRowColum);
             ClearRowCandiesHandler(a.CandyType == CandyType.CLEAR_ROW ? a.XRow : b.XRow);
         }
         // 一个普通，一个列消除
@@ -475,6 +513,7 @@ public class GameMap : MonoBehaviour {
                 (a.CandyType == CandyType.CLEAR_COLUM && b.CandyType == CandyType.TYPE_NORMOL))
         {
             ChangeHandler(a, b);
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, ClearRowColum);
             ClearColumCandiesHandler(a.CandyType == CandyType.CLEAR_COLUM ? a.YCol : b.YCol);
         }
         //一个普通，一个类型消除
@@ -482,6 +521,7 @@ public class GameMap : MonoBehaviour {
                 (a.CandyType == CandyType.CLEAR_TYPE && b.CandyType == CandyType.TYPE_NORMOL))
         {
             ChangeHandler(a, b);
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, RainBowClear);
             if(a.CandyType==CandyType.CLEAR_TYPE)
             {
                 ClearNormalTypeCandiesHandler(b.gameObject.name);
@@ -496,6 +536,7 @@ public class GameMap : MonoBehaviour {
         //两个 row消除
         else if(a.CandyType==CandyType.CLEAR_ROW && b.CandyType==CandyType.CLEAR_ROW)
         {
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, TwoRowColum);
             ChangeHandler(a, b);
             ClearRowCandiesHandler(a.XRow);
             ClearRowCandiesHandler(b.XRow);
@@ -503,6 +544,7 @@ public class GameMap : MonoBehaviour {
         //两个clolum消除
         else if(a.CandyType==CandyType.CLEAR_COLUM && b.CandyType==CandyType.CLEAR_COLUM)
         {
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, TwoRowColum);
             ChangeHandler(a, b);
             ClearColumCandiesHandler(a.YCol);
             ClearColumCandiesHandler(b.YCol);
@@ -511,6 +553,7 @@ public class GameMap : MonoBehaviour {
         else if((a.CandyType == CandyType.CLEAR_ROW && b.CandyType == CandyType.CLEAR_COLUM) ||
                 (a.CandyType == CandyType.CLEAR_COLUM && b.CandyType == CandyType.CLEAR_ROW))
         {
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, TwoRowColum);
             ChangeHandler(a, b);
             if(a.CandyType==CandyType.CLEAR_ROW)
             {
@@ -527,6 +570,8 @@ public class GameMap : MonoBehaviour {
         else if((a.CandyType == CandyType.CLEAR_ROW && b.CandyType == CandyType.CLEAR_TYPE) ||
                 (a.CandyType == CandyType.CLEAR_TYPE && b.CandyType == CandyType.CLEAR_ROW))
         {
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, TwoRowColum);
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, Good);
             ChangeHandler(a, b);
             if(a.CandyType==CandyType.CLEAR_TYPE)
             {
@@ -549,6 +594,8 @@ public class GameMap : MonoBehaviour {
         else if((a.CandyType == CandyType.CLEAR_COLUM && b.CandyType == CandyType.CLEAR_TYPE) ||
                 (a.CandyType == CandyType.CLEAR_COLUM && b.CandyType == CandyType.CLEAR_TYPE))
         {
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, TwoRowColum);
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, Good);
             ChangeHandler(a, b);
             if (a.CandyType == CandyType.CLEAR_TYPE)
             {
@@ -570,6 +617,8 @@ public class GameMap : MonoBehaviour {
         //两个 类型消除
         else if(a.CandyType==CandyType.CLEAR_TYPE && b.CandyType==CandyType.CLEAR_TYPE)
         {
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, CreateRainBall);
+            AudioManger.Singlton.PlayAudioClip(AudioType.Effect, Excellent);
             ClearAllHandler();
         }
         StartCoroutine(FillAllMap());
@@ -577,6 +626,7 @@ public class GameMap : MonoBehaviour {
 
     void ChangeHandler(Candy a,Candy b)
     {
+        AudioManger.Singlton.PlayAudioClip(AudioType.Effect, Drop);
         candyArray[a.XRow, a.YCol] = b;
         candyArray[b.XRow, b.YCol] = a;
 
@@ -588,11 +638,13 @@ public class GameMap : MonoBehaviour {
     }
 
     #region 特殊糖果删除操作
+    //行消除
     void ClearRowCandiesHandler(int rowIndex)
     {
         for (int i = 0; i < colum; i++)
             DeleteCandy(candyArray[rowIndex, i]);
     }
+    //列消除
     void ClearColumCandiesHandler(int columIndex)
     {
         for (int i = 0; i < row; i++)
@@ -609,6 +661,8 @@ public class GameMap : MonoBehaviour {
             }
         }
     }
+
+    //清除所有
     void ClearAllHandler()
     {
         for (int i = 0; i < row; i++)
