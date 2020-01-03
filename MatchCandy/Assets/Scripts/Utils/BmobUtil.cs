@@ -25,7 +25,7 @@ namespace Bmob.util
                     UIMessageMgr.ShowDialog("提示", "登录信息获取失败，请重新登录", () =>
                     {
                         Application.Quit();
-                    });
+                    },false);
                     return null;
                 }
                 else
@@ -67,7 +67,7 @@ namespace Bmob.util
             Bmob.Signup(user, (resp, exception) =>
             {
                 if (exception != null)
-                    UIMessageMgr.ShowDialog("注册失败，原因：" + exception.Message);
+                    UIMessageMgr.ShowDialog("注册失败，原因：" + exception.Message, false);
                 else
                 {
                     UIMessageMgr.ToastMsg("注册成功，欢迎" + userName);
@@ -84,7 +84,7 @@ namespace Bmob.util
             Bmob.Login<GameUser>(userName, password, (resp, exception) =>
             {
                 if (exception != null)
-                    UIMessageMgr.ShowDialog("登录失败,原因:" + exception.Message);
+                    UIMessageMgr.ShowDialog("登录失败,原因:" + exception.Message,false);
                 else
                 {
                     UIMessageMgr.ToastMsg("登录成功，欢迎回来");
@@ -120,6 +120,7 @@ namespace Bmob.util
                     Debug.LogWarning("用户数据保存失败, 原因为：" + ex.Message);
                     return;
                 }
+                Messenger.Broadcast(MessengerEventDef.Str_UpdateCurrency);
                 Debug.Log("用户数据更新成功");
             });
         }
@@ -191,17 +192,30 @@ namespace Bmob.util
         public BmobInt coin { get; set; }
         public BmobInt gem { get; set; }
 
+        public BmobInt clearRow { get; set; }
+        public BmobInt clearCol { get; set; }
+        public BmobInt clock { get; set; }
+        public BmobInt hammer { get; set; }
+
         public override void write(BmobOutput output, bool all)
         {
             base.write(output, all);
             output.Put("coin", this.coin);
             output.Put("gem", this.gem);
+            output.Put("clearRow", this.clearRow);
+            output.Put("clearCol", this.clearCol);
+            output.Put("clock", this.clock);
+            output.Put("hammer", this.hammer);
         }
         public override void readFields(BmobInput input)
         {
             base.readFields(input);
             this.coin = input.getInt("coin");
             this.gem = input.getInt("gem");
+            this.clearRow = input.getInt("clearRow");
+            this.clearCol = input.getInt("clearCol");
+            this.clock = input.getInt("clock");
+            this.hammer = input.getInt("hamer");
         }
     }
 

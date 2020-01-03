@@ -6,9 +6,11 @@ namespace Modules.UI
 		MainPanel,
 		StartPanel,
 		UI_Dialog,
+		UI_Game,
 		UI_Loading,
 		UI_Login,
 		UI_MapPanel,
+		UI_Shop,
 		UI_Toast,
 	}
 }

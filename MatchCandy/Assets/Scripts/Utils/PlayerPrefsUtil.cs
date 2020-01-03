@@ -41,6 +41,21 @@ public class PlayerPrefsUtil
         }
     }
 
+    public static string LocalGoodsInfoUrl
+    {
+        get
+        {
+            string url = "";
+            if (PlayerPrefs.HasKey("goodsInfoUrl"))
+                url = PlayerPrefs.GetString("goodsInfoUrl");
+            return url;
+        }
+        set
+        {
+            PlayerPrefs.SetString("goodsInfoUrl", value);
+        }
+    }
+
     /// <summary>
     /// 是否是第一次登录
     /// </summary>

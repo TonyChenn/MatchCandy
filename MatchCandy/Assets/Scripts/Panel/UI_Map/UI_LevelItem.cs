@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Modules.UI
 {
@@ -30,8 +29,7 @@ namespace Modules.UI
             {
                 if (canEnterLevel)
                 {
-                    LevelUtil.Singlton.CurLevel = levelDaoConfig;
-                    SceneManager.LoadScene("Main");
+                    UIManger.ShowUISync(UIType.UI_Game, levelDaoConfig);
                 }
                 else
                     UIMessageMgr.ToastMsg("关卡还未解锁");

@@ -7,21 +7,21 @@ using System;
 public class UIMessageMgr
 {
     #region Message Tips
-    public static void ShowDialog(string content)
+    public static void ShowDialog(string content,bool mask)
     {
-        ShowDialog("提示", content);
+        ShowDialog("提示", content, mask);
     }
-    public static void ShowDialog(string title,string content)
+    public static void ShowDialog(string title,string content,bool mask)
     {
-        ShowDialog(title, content, null);
+        ShowDialog(title, content, null, mask);
     }
-    public static void ShowDialog(string title,string content,Action ok)
+    public static void ShowDialog(string title,string content,Action ok,bool mask)
     {
-        ShowDialog(title, content, ok, null);
+        ShowDialog(title, content, ok, null, mask);
     }
-    public static void ShowDialog(string title,string content,Action ok,Action cancel)
+    public static void ShowDialog(string title,string content,Action ok,Action cancel,bool mask)
     {
-        Messenger<string, string, Action, Action>.Broadcast(MessengerEventDef.ShowUIDialog, title, content, ok, cancel);
+        Messenger<string, string, Action, Action,bool>.Broadcast(MessengerEventDef.ShowUIDialog, title, content, ok, cancel,mask);
     }
     #endregion
 

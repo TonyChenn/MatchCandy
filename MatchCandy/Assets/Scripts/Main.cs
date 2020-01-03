@@ -10,9 +10,11 @@ public class Main : MonoBehaviour {
     UnityWebRequest webRequest;
     string versionJson = "";
     string levelJson = "";
+    string goodsJson = "";
 
     int serverVersion = -1;
     string serverVersionUrl = "";
+    string goodsVersionUrl = "";
     void Start ()
     {
         UIManger.ShowUISync(UIType.UI_Loading, null);
@@ -31,14 +33,16 @@ public class Main : MonoBehaviour {
         yield return webRequest.SendWebRequest();
         if(webRequest.isNetworkError || webRequest.isHttpError)
         {
-            UIMessageMgr.ShowDialog("版本检查出错，原因：" + webRequest.error);
+            UIMessageMgr.ShowDialog("版本检查出错，原因：" + webRequest.error, false);
         }
         else
         {
             versionJson = webRequest.downloadHandler.text;
 
-            serverVersion = VersionUtil.GetServerVersion(versionJson);
-            serverVersionUrl = VersionUtil.GetNewVersionUrl(versionJson);
+            VersionDao obj = VersionUtil.GetVersionObj(versionJson);
+            serverVersion = obj.vesion;
+            serverVersionUrl = obj.url;
+            goodsVersionUrl = obj.goodsUrl;
 
             if (serverVersion == -1)
             {
@@ -68,16 +72,42 @@ public class Main : MonoBehaviour {
         yield return webRequest.SendWebRequest();
 
         if (webRequest.isNetworkError || webRequest.isHttpError)
-            UIMessageMgr.ShowDialog("下载出错，原因：" + webRequest.error);
+            UIMessageMgr.ShowDialog("下载出错，原因：" + webRequest.error,false);
         else
         {
             levelJson = webRequest.downloadHandler.text;
-            UIMessageMgr.ShowDialog(levelJson);
+            UIMessageMgr.ShowDialog(levelJson, false);
             //下载成功后版本信息保存本地
             PlayerPrefsUtil.LocalVersion = serverVersion;
             PlayerPrefsUtil.LocalVersionUrl = serverVersionUrl;
 
             FileUtils.GameLevelJson = levelJson;
+
+
+            StartCoroutine(DownloadGoodsInfo(goodsVersionUrl));
+        }
+        Messenger.Broadcast(MessengerEventDef.Str_CheckLogin);
+        UIMessageMgr.ShowLoading(false);
+    }
+
+    IEnumerator DownloadGoodsInfo(string url)
+    {
+        webRequest = UnityWebRequest.Get(url);
+        UIMessageMgr.ShowLoading(true, "发现新版本，正在下载...");
+        yield return webRequest.SendWebRequest();
+
+        if (webRequest.isNetworkError || webRequest.isHttpError)
+            UIMessageMgr.ShowDialog("下载出错，原因：" + webRequest.error, false);
+        else
+        {
+            goodsJson = webRequest.downloadHandler.text;
+            UIMessageMgr.ShowDialog(goodsJson, false);
+            //下载成功后版本信息保存本地
+            PlayerPrefsUtil.LocalVersion = serverVersion;
+            PlayerPrefsUtil.LocalVersionUrl = serverVersionUrl;
+            PlayerPrefsUtil.LocalGoodsInfoUrl = goodsVersionUrl;
+
+            FileUtils.GameGoodsJson = goodsJson;
         }
         Messenger.Broadcast(MessengerEventDef.Str_CheckLogin);
         UIMessageMgr.ShowLoading(false);

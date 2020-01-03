@@ -71,7 +71,7 @@ namespace Modules.UI
             if (File.Exists(path))
                 json = File.ReadAllText(path);
             else
-                Debug.LogError("json 路径不存在");
+                Debug.LogError("json 路径不存在"+path);
             return json;
         }
         public static void WriteFile(string path,string content)
@@ -81,6 +81,9 @@ namespace Modules.UI
             File.WriteAllText(path, content);
         }
 
+        /// <summary>
+        /// 游戏关卡Json
+        /// </summary>
         public static string GameLevelJson
         {
             get
@@ -89,11 +92,25 @@ namespace Modules.UI
             }
             set
             {
-                Debug.Log(Application.persistentDataPath);
+                Debug.Log("写关卡文件" + Application.persistentDataPath);
                 WriteFile(Application.persistentDataPath + "/level.json", value);
             }
         }
-
+        /// <summary>
+        /// 商品信息Json
+        /// </summary>
+        public static string GameGoodsJson
+        {
+            get
+            {
+                return ReadFile(Application.persistentDataPath + "/goods.json");
+            }
+            set
+            {
+                Debug.Log("写商品文件"+Application.persistentDataPath);
+                WriteFile(Application.persistentDataPath + "/goods.json", value);
+            }
+        }
     }
 
     class Panel

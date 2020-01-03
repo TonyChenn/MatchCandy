@@ -38,8 +38,6 @@ namespace Modules.UI
             base.InitWndOnAwake();
             UIEventListener.Get(BtnA).onClick = OnAClick;
             UIEventListener.Get(BtnB).onClick = OnBClick;
-            Debug.Log("Login panel is Loaded!");
-
         }
         public override void OnShowWnd(UIWndData wndData)
         {

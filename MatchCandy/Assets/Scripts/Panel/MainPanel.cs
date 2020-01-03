@@ -73,7 +73,7 @@ namespace Modules.UI
         #region Button
         private void Button0ClickHandler(GameObject go)
         {
-            Debug.Log(0);
+            UIManger.ShowUISync(UIType.UI_Shop, null);
         }
 
         private void Button1ClickHandler(GameObject go)

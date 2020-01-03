@@ -11,6 +11,8 @@ namespace Modules.UI
         [SerializeField]
         Transform Root;
         [SerializeField]
+        UISprite Mask;
+        [SerializeField]
         UILabel Title;
         [SerializeField]
         UILabel Content;
@@ -48,12 +50,12 @@ namespace Modules.UI
         public override void RegisterMessage()
         {
             base.RegisterMessage();
-            Messenger<string, string, Action, Action>.AddListener(MessengerEventDef.ShowUIDialog, ShowDialog);
+            Messenger<string, string, Action, Action, bool>.AddListener(MessengerEventDef.ShowUIDialog, ShowDialog);
         }
         public override void RemoveMessage()
         {
             base.RemoveMessage();
-            Messenger<string,string, Action, Action>.RemoveListener(MessengerEventDef.ShowUIDialog, ShowDialog);
+            Messenger<string, string, Action, Action, bool>.RemoveListener(MessengerEventDef.ShowUIDialog, ShowDialog);
         }
 
         #region ButtonHandler
@@ -89,8 +91,9 @@ namespace Modules.UI
             okCallBack = null;
             cancelCallBack = null;
         }
-        void ShowDialog(string title, string content, Action ok, Action cancel)
+        void ShowDialog(string title, string content, Action ok, Action cancel,bool mask)
         {
+            Mask.gameObject.SetActive(mask);
             if(ok==null && cancel==null)
             {
                 OneButtonGroup.gameObject.SetActive(false);

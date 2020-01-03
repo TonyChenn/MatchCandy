@@ -9,7 +9,6 @@ public class LevelUtil
     Dictionary<int, LevelDao> levelDict = null;
     static LevelUtil _instance = null;
 
-    static LevelDao curLevel = null;
     public static LevelUtil Singlton
     {
         get
@@ -53,15 +52,6 @@ public class LevelUtil
         if (LevelDict.ContainsKey(levelID))
             return LevelDict[levelID];
         return null;
-    }
-
-    /// <summary>
-    /// 获取当前关卡
-    /// </summary>
-    public LevelDao CurLevel
-    {
-        get { return curLevel; }
-        set { curLevel = value; }
     }
 }
 /// <summary>
