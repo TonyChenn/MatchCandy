@@ -14,8 +14,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: fe5a7e3bf326bd64ba4e9e59f9cf3b03, type: 2}
   mSprites:
   - name: 001
-    x: 511
-    y: 161
+    x: 736
+    y: 762
     width: 62
     height: 59
     borderLeft: 0
@@ -27,8 +27,8 @@ MonoBehaviour:
     paddingTop: 5
     paddingBottom: 0
   - name: 002
-    x: 637
-    y: 636
+    x: 600
+    y: 559
     width: 64
     height: 59
     borderLeft: 0
@@ -40,8 +40,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 4
   - name: 003
-    x: 390
-    y: 17
+    x: 679
+    y: 435
     width: 63
     height: 53
     borderLeft: 0
@@ -53,8 +53,8 @@ MonoBehaviour:
     paddingTop: 7
     paddingBottom: 4
   - name: 004
-    x: 119
-    y: 46
+    x: 549
+    y: 185
     width: 62
     height: 46
     borderLeft: 0
@@ -66,8 +66,8 @@ MonoBehaviour:
     paddingTop: 10
     paddingBottom: 8
   - name: 005
-    x: 119
-    y: 93
+    x: 492
+    y: 13
     width: 62
     height: 41
     borderLeft: 0
@@ -79,8 +79,8 @@ MonoBehaviour:
     paddingTop: 15
     paddingBottom: 8
   - name: 006
-    x: 571
-    y: 445
+    x: 492
+    y: 58
     width: 50
     height: 61
     borderLeft: 0
@@ -92,8 +92,8 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 0
   - name: 007
-    x: 702
-    y: 642
+    x: 492
+    y: 120
     width: 59
     height: 53
     borderLeft: 0
@@ -105,8 +105,8 @@ MonoBehaviour:
     paddingTop: 11
     paddingBottom: 0
   - name: 008
-    x: 454
-    y: 12
+    x: 742
+    y: 707
     width: 64
     height: 54
     borderLeft: 0
@@ -118,8 +118,8 @@ MonoBehaviour:
     paddingTop: 6
     paddingBottom: 4
   - name: bg_grey
-    x: 239
-    y: 400
+    x: 627
+    y: 443
     width: 30
     height: 30
     borderLeft: 1
@@ -131,8 +131,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: bg_top
-    x: 714
-    y: 48
+    x: 799
+    y: 765
     width: 60
     height: 56
     borderLeft: 53
@@ -144,8 +144,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: Biscuit
-    x: 239
-    y: 514
+    x: 332
+    y: 53
     width: 159
     height: 154
     borderLeft: 35
@@ -157,8 +157,8 @@ MonoBehaviour:
     paddingTop: 21
     paddingBottom: 19
   - name: biscuit_1
-    x: 519
-    y: 2
+    x: 679
+    y: 554
     width: 64
     height: 64
     borderLeft: 0
@@ -170,8 +170,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: BlueBubble
-    x: 343
-    y: 681
+    x: 421
+    y: 6
     width: 45
     height: 46
     borderLeft: 0
@@ -183,8 +183,8 @@ MonoBehaviour:
     paddingTop: 5
     paddingBottom: 4
   - name: btn_back
-    x: 635
-    y: 426
+    x: 238
+    y: 26
     width: 86
     height: 80
     borderLeft: 0
@@ -196,8 +196,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: btn_bg1
-    x: 239
-    y: 431
+    x: 0
+    y: 107
     width: 331
     height: 82
     borderLeft: 60
@@ -209,8 +209,8 @@ MonoBehaviour:
     paddingTop: 5
     paddingBottom: 9
   - name: btn_cart
-    x: 119
-    y: 5
+    x: 612
+    y: 191
     width: 47
     height: 40
     borderLeft: 0
@@ -221,9 +221,22 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: clock
+    x: 606
+    y: 699
+    width: 62
+    height: 57
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: Close
-    x: 189
-    y: 669
+    x: 194
+    y: 413
     width: 153
     height: 152
     borderLeft: 0
@@ -235,8 +248,8 @@ MonoBehaviour:
     paddingTop: 33
     paddingBottom: 35
   - name: coin
-    x: 637
-    y: 696
+    x: 348
+    y: 322
     width: 128
     height: 125
     borderLeft: 0
@@ -248,8 +261,8 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 0
   - name: col
-    x: 639
-    y: 94
+    x: 682
+    y: 694
     width: 59
     height: 62
     borderLeft: 0
@@ -261,8 +274,8 @@ MonoBehaviour:
     paddingTop: 2
     paddingBottom: 0
   - name: Colors
-    x: 626
-    y: 507
+    x: 477
+    y: 555
     width: 122
     height: 126
     borderLeft: 0
@@ -274,8 +287,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 2
   - name: continue
-    x: 189
-    y: 637
+    x: 596
+    y: 442
     width: 30
     height: 31
     borderLeft: 0
@@ -287,8 +300,8 @@ MonoBehaviour:
     paddingTop: 1
     paddingBottom: 0
   - name: Et_bg
-    x: 220
-    y: 651
+    x: 474
+    y: 214
     width: 17
     height: 17
     borderLeft: 6
@@ -299,22 +312,9 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
-  - name: floor_muit
-    x: 0
-    y: 391
-    width: 238
-    height: 241
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
-    paddingLeft: 8
-    paddingRight: 10
-    paddingTop: 8
-    paddingBottom: 7
   - name: floor_single
     x: 0
-    y: 633
+    y: 190
     width: 188
     height: 188
     borderLeft: 0
@@ -326,8 +326,8 @@ MonoBehaviour:
     paddingTop: 32
     paddingBottom: 36
   - name: floorbg
-    x: 584
-    y: 2
+    x: 606
+    y: 757
     width: 64
     height: 64
     borderLeft: 0
@@ -339,8 +339,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: GrassGreenBubble
-    x: 760
-    y: 1
+    x: 552
+    y: 138
     width: 45
     height: 46
     borderLeft: 0
@@ -352,8 +352,8 @@ MonoBehaviour:
     paddingTop: 4
     paddingBottom: 5
   - name: GreenBubble
-    x: 714
-    y: 1
+    x: 588
+    y: 91
     width: 45
     height: 46
     borderLeft: 0
@@ -365,8 +365,8 @@ MonoBehaviour:
     paddingTop: 5
     paddingBottom: 4
   - name: GreyBasic
-    x: 343
-    y: 728
+    x: 0
+    y: 13
     width: 237
     height: 93
     borderLeft: 0
@@ -378,8 +378,8 @@ MonoBehaviour:
     paddingTop: 8
     paddingBottom: 11
   - name: head
-    x: 506
-    y: 302
+    x: 348
+    y: 448
     width: 128
     height: 128
     borderLeft: 0
@@ -391,8 +391,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: heart
-    x: 399
-    y: 524
+    x: 348
+    y: 212
     width: 125
     height: 109
     borderLeft: 0
@@ -404,8 +404,8 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 16
   - name: heart_single
-    x: 594
-    y: 157
+    x: 671
+    y: 757
     width: 64
     height: 64
     borderLeft: 0
@@ -417,8 +417,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: HeartButton
-    x: 390
-    y: 157
+    x: 485
+    y: 699
     width: 120
     height: 122
     borderLeft: 0
@@ -430,8 +430,8 @@ MonoBehaviour:
     paddingTop: 4
     paddingBottom: 2
   - name: item
-    x: 355
-    y: 280
+    x: 196
+    y: 671
     width: 150
     height: 150
     borderLeft: 0
@@ -444,7 +444,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: ItemBG
     x: 0
-    y: 135
+    y: 566
     width: 195
     height: 255
     borderLeft: 0
@@ -456,8 +456,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 1
   - name: Loading
-    x: 196
-    y: 33
+    x: 0
+    y: 379
     width: 193
     height: 186
     borderLeft: 0
@@ -469,8 +469,8 @@ MonoBehaviour:
     paddingTop: 11
     paddingBottom: 3
   - name: lock2
-    x: 676
-    y: 263
+    x: 543
+    y: 55
     width: 44
     height: 64
     borderLeft: 0
@@ -482,8 +482,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: OrangeBubble
-    x: 581
-    y: 729
+    x: 598
+    y: 139
     width: 45
     height: 45
     borderLeft: 0
@@ -495,8 +495,8 @@ MonoBehaviour:
     paddingTop: 5
     paddingBottom: 5
   - name: PinkBasic
-    x: 399
-    y: 634
+    x: 196
+    y: 577
     width: 237
     height: 93
     borderLeft: 155
@@ -508,8 +508,8 @@ MonoBehaviour:
     paddingTop: 8
     paddingBottom: 11
   - name: PinkBubble
-    x: 635
-    y: 378
+    x: 375
+    y: 5
     width: 45
     height: 47
     borderLeft: 0
@@ -521,8 +521,8 @@ MonoBehaviour:
     paddingTop: 4
     paddingBottom: 4
   - name: PinkButton
-    x: 0
-    y: 15
+    x: 477
+    y: 435
     width: 118
     height: 119
     borderLeft: 0
@@ -534,8 +534,8 @@ MonoBehaviour:
     paddingTop: 5
     paddingBottom: 4
   - name: PurpleBubble
-    x: 635
-    y: 328
+    x: 325
+    y: 3
     width: 49
     height: 49
     borderLeft: 0
@@ -546,9 +546,22 @@ MonoBehaviour:
     paddingRight: 3
     paddingTop: 3
     paddingBottom: 3
+  - name: redPoint
+    x: 658
+    y: 452
+    width: 20
+    height: 21
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: Repeat
-    x: 196
-    y: 220
+    x: 189
+    y: 208
     width: 158
     height: 170
     borderLeft: 0
@@ -560,8 +573,8 @@ MonoBehaviour:
     paddingTop: 25
     paddingBottom: 25
   - name: row
-    x: 659
-    y: 163
+    x: 682
+    y: 635
     width: 63
     height: 58
     borderLeft: 0
@@ -586,8 +599,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 16
   - name: SquareLight
-    x: 649
-    y: 29
+    x: 679
+    y: 489
     width: 64
     height: 64
     borderLeft: 5
@@ -599,8 +612,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: star_light
-    x: 594
-    y: 222
+    x: 600
+    y: 619
     width: 81
     height: 79
     borderLeft: 0
@@ -612,8 +625,8 @@ MonoBehaviour:
     paddingTop: 4
     paddingBottom: 4
   - name: star_unlight
-    x: 511
-    y: 221
+    x: 596
+    y: 474
     width: 82
     height: 80
     borderLeft: 0
@@ -625,8 +638,8 @@ MonoBehaviour:
     paddingTop: 3
     paddingBottom: 4
   - name: Star1
-    x: 390
-    y: 71
+    x: 578
+    y: 349
     width: 107
     height: 85
     borderLeft: 0
@@ -638,8 +651,8 @@ MonoBehaviour:
     paddingTop: 14
     paddingBottom: 14
   - name: Star2
-    x: 699
-    y: 105
+    x: 492
+    y: 174
     width: 56
     height: 57
     borderLeft: 0
@@ -650,22 +663,22 @@ MonoBehaviour:
     paddingRight: 3
     paddingTop: 0
     paddingBottom: 3
-  - name: stop
-    x: 355
-    y: 249
-    width: 32
-    height: 30
+  - name: stick
+    x: 347
+    y: 682
+    width: 137
+    height: 139
     borderLeft: 0
     borderRight: 0
     borderTop: 0
     borderBottom: 0
-    paddingLeft: 0
-    paddingRight: 0
-    paddingTop: 0
-    paddingBottom: 2
+    paddingLeft: 3
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 0
   - name: sunshine
-    x: 525
-    y: 525
+    x: 477
+    y: 326
     width: 100
     height: 108
     borderLeft: 0
@@ -677,8 +690,8 @@ MonoBehaviour:
     paddingTop: 8
     paddingBottom: 12
   - name: Wnd_bg
-    x: 498
-    y: 67
+    x: 474
+    y: 232
     width: 140
     height: 89
     borderLeft: 23
@@ -690,8 +703,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: YellowBubble
-    x: 581
-    y: 775
+    x: 555
+    y: 8
     width: 45
     height: 46
     borderLeft: 0
