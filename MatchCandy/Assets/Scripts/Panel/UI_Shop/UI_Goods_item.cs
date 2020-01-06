@@ -67,7 +67,6 @@ public class UI_Goods_item : MonoBehaviour
         Name.text = good.Name;
         Price.text = good.Price.ToString();
         Icon.spriteName = GetGoodIconByID(good.id);
-        Debug.Log(good.id.ToString());
     }
     string GetGoodIconByID(int id)
     {

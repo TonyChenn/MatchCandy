@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using Bmob.util;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using UIAnimation.Actions;
 using UnityEngine;
 
 namespace Modules.UI
@@ -10,6 +13,12 @@ namespace Modules.UI
         UILabel Count;
         [SerializeField]
         UILabel Score;
+        [SerializeField]
+        Transform anchorRightTrans;
+        [SerializeField]
+        ActionRunner showRunner;
+        [SerializeField]
+        Props[] propArray;
 
         LevelDao config = null;
         GameState gameState = GameState.GamePause;
@@ -18,6 +27,7 @@ namespace Modules.UI
         int count = 0;
         //游戏玩法
         int GameMode = 0;
+        GameUser gameUser = null;
         
 
         protected override void SetWndFlag()
@@ -28,8 +38,12 @@ namespace Modules.UI
         public override void InitWndOnAwake()
         {
             base.InitWndOnAwake();
+            anchorRightTrans.localPosition = new Vector3(150f, 0, 0);
+            UIEventListener.Get(propArray[0].propTrans.gameObject).onClick = OnUseClearCol;
+            UIEventListener.Get(propArray[1].propTrans.gameObject).onClick = OnUseClearRow;
+            UIEventListener.Get(propArray[2].propTrans.gameObject).onClick = OnUseClock;
+            UIEventListener.Get(propArray[3].propTrans.gameObject).onClick = OnUseHammer;
         }
-
         public override void OnShowWnd(UIWndData wndData)
         {
             base.OnShowWnd(wndData);
@@ -43,6 +57,14 @@ namespace Modules.UI
                     Count.text = count + "";
                 }
             }
+            gameUser = BmobUtil.Singlton.CurUser;
+            propArray[0].countLabel.text = gameUser.clearCol.Get().ToString();
+            propArray[1].countLabel.text = gameUser.clearRow.Get().ToString();
+            propArray[2].countLabel.text = gameUser.clock.Get().ToString();
+            propArray[3].countLabel.text = gameUser.hammer.Get().ToString();
+
+            showRunner.Stop();
+            showRunner.Run();
         }
 
         float timer = 0;
@@ -77,6 +99,47 @@ namespace Modules.UI
             }
         }
 
+        #region Button
+        private void OnUseClearRow(GameObject go)
+        {
+            if (gameUser.clearRow.Get() < 1)
+                UIMessageMgr.ToastMsg("无道具");
+            else
+            {
+
+            }
+        }
+
+        private void OnUseClearCol(GameObject go)
+        {
+            if (gameUser.clearCol.Get() < 1)
+                UIMessageMgr.ToastMsg("无道具");
+            else
+            {
+
+            }
+        }
+
+        private void OnUseClock(GameObject go)
+        {
+            if (gameUser.clock.Get() < 1)
+                UIMessageMgr.ToastMsg("无道具");
+            else
+            {
+
+            }
+        }
+
+        private void OnUseHammer(GameObject go)
+        {
+            if (gameUser.hammer.Get() < 1)
+                UIMessageMgr.ToastMsg("无道具");
+            else
+            {
+
+            }
+        }
+        #endregion
 
         #region Messenger
         public override void RegisterMessage()
@@ -88,6 +151,13 @@ namespace Modules.UI
             base.RemoveMessage();
         }
         #endregion
+    }
+
+    [System.Serializable]
+    public struct Props
+    {
+        public Transform propTrans;
+        public UILabel countLabel;
     }
 }
 

@@ -215,7 +215,7 @@ namespace Bmob.util
             this.clearRow = input.getInt("clearRow");
             this.clearCol = input.getInt("clearCol");
             this.clock = input.getInt("clock");
-            this.hammer = input.getInt("hamer");
+            this.hammer = input.getInt("hammer");
         }
     }
 
