@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114067093956405360}
   m_Layer: 8
   m_Name: Normal5
-  m_TagString: Untagged
+  m_TagString: candy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,6 +68,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanMove: 1
   candyType: 2
+  x: 0
+  y: 0
 --- !u!114 &114067093956405360
 MonoBehaviour:
   m_ObjectHideFlags: 1

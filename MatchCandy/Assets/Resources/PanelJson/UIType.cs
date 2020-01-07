@@ -5,6 +5,7 @@ namespace Modules.UI
 		None,
 		MainPanel,
 		StartPanel,
+		UI_CountPanel,
 		UI_Dialog,
 		UI_Game,
 		UI_Loading,

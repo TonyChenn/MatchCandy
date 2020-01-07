@@ -1,4 +1,5 @@
-﻿using Common.Messenger;
+﻿using Bmob.util;
+using Common.Messenger;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,6 +68,17 @@ namespace Modules.UI
         {
             gameMap = this;
             AddListener();
+
+        }
+
+
+        private void OnDestroy()
+        {
+            RemoveListener();
+        }
+
+        void startGame()
+        {
             initMap();
             ///虚拟数据
             var list = new List<string>();
@@ -74,12 +86,6 @@ namespace Modules.UI
             list.Add("5,4");
             CreateWall(list);
             StartCoroutine(FillAllMap());
-        }
-
-
-        private void OnDestroy()
-        {
-            RemoveListener();
         }
 
         /// <summary>
@@ -269,8 +275,20 @@ namespace Modules.UI
         /// </summary>
         public void DeleteCandy(Candy candy)
         {
+            score += 100;
             Destroy(candyArray[candy.XRow, candy.YCol].gameObject, 0.5f);
             candyArray[candy.XRow, candy.YCol] = CreatCandy(candy.XRow, candy.YCol, CandyType.TYPE_NULL);
+        }
+        /// <summary>
+        /// 删除糖果，并生成一个指定类型的糖果
+        /// </summary>
+        /// <param name="type"></param>
+        public void DeleteCandyAndCreateByType(Candy candy, CandyType type)
+        {
+            score += 100;
+            Destroy(candyArray[candy.XRow, candy.YCol].gameObject, .5f);
+            candyArray[candy.XRow, candy.YCol] = CreatCandy(candy.XRow, candy.YCol, type);
+            StartCoroutine(FillAllMap());
         }
 
         /// <summary>
@@ -696,12 +714,16 @@ namespace Modules.UI
             Messenger<Candy>.AddListener(MessengerEventDef.Str_MousePressDown, onPressCandy);
             Messenger<Candy>.AddListener(MessengerEventDef.Str_MouseEnter, onEnterCandy);
             Messenger.AddListener(MessengerEventDef.Str_MousePressUp, onReleaseCandy);
+            Messenger<PropsType,Candy>.AddListener(MessengerEventDef.Str_UseProps, onUseProps);
+            Messenger.AddListener(MessengerEventDef.Str_StartGame, startGame);
         }
         void RemoveListener()
         {
             Messenger<Candy>.RemoveListener(MessengerEventDef.Str_MousePressDown, onPressCandy);
             Messenger<Candy>.RemoveListener(MessengerEventDef.Str_MouseEnter, onEnterCandy);
             Messenger.RemoveListener(MessengerEventDef.Str_MousePressUp, onReleaseCandy);
+            Messenger<PropsType,Candy>.RemoveListener(MessengerEventDef.Str_UseProps, onUseProps);
+            Messenger.RemoveListener(MessengerEventDef.Str_StartGame, startGame);
         }
 
         void onPressCandy(Candy candy)
@@ -722,6 +744,56 @@ namespace Modules.UI
                 pressedCandy = null;
                 upCandy = null;
             }
+        }
+
+        //使用道具
+        void onUseProps(PropsType type,Candy candy)
+        {
+            GameUser user = BmobUtil.Singlton.CurUser;
+            if(type==PropsType.ClearRow)
+            {
+                if (user.clearRow.Get() > 1)
+                {
+                    DeleteCandyAndCreateByType(candy, CandyType.CLEAR_ROW);
+                    int count = user.clearRow.Get();
+                    user.clearRow = count - 1;
+                }
+                else
+                    UIMessageMgr.ToastMsg("道具不足");
+            }
+            else if(type==PropsType.ClearCol)
+            {
+                if (user.clearCol.Get() > 1)
+                {
+                    DeleteCandyAndCreateByType(candy, CandyType.CLEAR_COLUM);
+                    int count = user.clearCol.Get();
+                    user.clearCol = count - 1;
+                }
+                else
+                    UIMessageMgr.ToastMsg("道具不足");
+            }
+            else if(type==PropsType.Clock)
+            {
+                if(user.clock.Get()>1)
+                {
+
+                }
+                else
+                    UIMessageMgr.ToastMsg("道具不足");
+
+            }
+            else if(type==PropsType.Hammer)
+            {
+                if(user.hammer.Get()>1)
+                {
+                    DeleteCandyAndCreateByType(candy, CandyType.TYPE_NULL);
+                    int count = user.hammer.Get();
+                    user.hammer = count - 1;
+                }
+                else
+                    UIMessageMgr.ToastMsg("道具不足");
+            }
+            Messenger.Broadcast(MessengerEventDef.Str_UpdatePropsCount);
         }
         #endregion
     }

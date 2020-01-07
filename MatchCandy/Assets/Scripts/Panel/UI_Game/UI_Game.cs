@@ -1,4 +1,5 @@
 ﻿using Bmob.util;
+using Common.Messenger;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Modules.UI
         Props[] propArray;
 
         LevelDao config = null;
-        GameState gameState = GameState.GamePause;
+        public static GameState gameState = GameState.GamePause;
 
         int gameScore = 0;
         int count = 0;
@@ -53,18 +54,21 @@ namespace Modules.UI
                 {
                     config = (LevelDao)wndData.ExData;
                     count = config.modeCount;
-                    GameMode = config.mode;
                     Count.text = count + "";
                 }
             }
-            gameUser = BmobUtil.Singlton.CurUser;
-            propArray[0].countLabel.text = gameUser.clearCol.Get().ToString();
-            propArray[1].countLabel.text = gameUser.clearRow.Get().ToString();
-            propArray[2].countLabel.text = gameUser.clock.Get().ToString();
-            propArray[3].countLabel.text = gameUser.hammer.Get().ToString();
+            Score.text = gameScore.ToString();
+            UpdatePropsCount();
 
             showRunner.Stop();
             showRunner.Run();
+
+            UIManger.ShowUISync(UIType.UI_CountPanel, null);
+        }
+
+        void StartGame()
+        {
+            gameState = GameState.GamePlaying;
         }
 
         float timer = 0;
@@ -83,17 +87,18 @@ namespace Modules.UI
         }
         private void FixedUpdate()
         {
-            if(gameState==GameState.GamePlaying && GameMode==0)
+            if(gameState==GameState.GamePlaying)
             {
                 timer += Time.fixedDeltaTime;
                 if(timer>1)
                 {
                     count -= 1;
-                    Count.text = count + "";
+                    Count.text = count.ToString();
+                    timer = 0f;
                 }
             }
 
-            if(count<=0)
+            if(gameState==GameState.GamePlaying && count<=0)
             {
                 gameState = GameState.GameOver;
             }
@@ -106,7 +111,10 @@ namespace Modules.UI
                 UIMessageMgr.ToastMsg("无道具");
             else
             {
-
+                //UIMessageMgr.ShowDialog("提示", "你确定要使用1个行消除道具吗？", () =>
+                //{
+                //    Messenger<PropsType>.Broadcast(MessengerEventDef.Str_UseProps, PropsType.ClearRow);
+                //}, false);
             }
         }
 
@@ -116,7 +124,10 @@ namespace Modules.UI
                 UIMessageMgr.ToastMsg("无道具");
             else
             {
-
+                //UIMessageMgr.ShowDialog("提示", "你确定要使用1个行消除道具吗？", () =>
+                //{
+                //    Messenger<PropsType>.Broadcast(MessengerEventDef.Str_UseProps, PropsType.ClearCol);
+                //}, false);
             }
         }
 
@@ -126,7 +137,10 @@ namespace Modules.UI
                 UIMessageMgr.ToastMsg("无道具");
             else
             {
-
+                //UIMessageMgr.ShowDialog("提示", "你确定要使用1个行消除道具吗？", () =>
+                //{
+                //    Messenger<PropsType>.Broadcast(MessengerEventDef.Str_UseProps, PropsType.Clock);
+                //}, false);
             }
         }
 
@@ -136,23 +150,44 @@ namespace Modules.UI
                 UIMessageMgr.ToastMsg("无道具");
             else
             {
-
+                //UIMessageMgr.ShowDialog("提示", "你确定要使用1个行消除道具吗？", () =>
+                //{
+                //    Messenger<PropsType>.Broadcast(MessengerEventDef.Str_UseProps, PropsType.Hammer);
+                //}, false);
             }
         }
+
         #endregion
 
         #region Messenger
         public override void RegisterMessage()
         {
             base.RegisterMessage();
+            Messenger.AddListener(MessengerEventDef.Str_UpdatePropsCount, UpdatePropsCount);
         }
         public override void RemoveMessage()
         {
             base.RemoveMessage();
+            Messenger.RemoveListener(MessengerEventDef.Str_UpdatePropsCount, UpdatePropsCount);
+        }
+
+        void UpdatePropsCount()
+        {
+            gameUser = BmobUtil.Singlton.CurUser;
+            propArray[0].countLabel.text = gameUser.clearCol.Get().ToString();
+            propArray[1].countLabel.text = gameUser.clearRow.Get().ToString();
+            propArray[2].countLabel.text = gameUser.clock.Get().ToString();
+            propArray[3].countLabel.text = gameUser.hammer.Get().ToString();
         }
         #endregion
     }
-
+    public enum PropsType
+    {
+        ClearRow,
+        ClearCol,
+        Clock,
+        Hammer,
+    }
     [System.Serializable]
     public struct Props
     {

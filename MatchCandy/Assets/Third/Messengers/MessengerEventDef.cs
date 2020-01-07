@@ -22,5 +22,10 @@ namespace Common.Messenger
         public const string Str_RegisterSuccess = "Str_RegisterSuccess";
 
         public const string Str_UpdateCurrency = "Str_UpdateCurrency";
+
+        public const string Str_UseProps = "Str_UseProps";
+        public const string Str_UpdatePropsCount = "Str_UpdatePropsCount";
+
+        public const string Str_StartGame = "Str_StartGame";
     }
 }
