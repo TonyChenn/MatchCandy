@@ -33,6 +33,7 @@ namespace Modules.UI
 
         Action okCallBack = null;
         Action cancelCallBack = null;
+        Action closeCallBack = null;
 
         protected override void SetWndFlag()
         {
@@ -50,12 +51,12 @@ namespace Modules.UI
         public override void RegisterMessage()
         {
             base.RegisterMessage();
-            Messenger<string, string, Action, Action, bool>.AddListener(MessengerEventDef.ShowUIDialog, ShowDialog);
+            Messenger<string, string, Action, Action, Action, bool>.AddListener(MessengerEventDef.ShowUIDialog, ShowDialog);
         }
         public override void RemoveMessage()
         {
             base.RemoveMessage();
-            Messenger<string, string, Action, Action, bool>.RemoveListener(MessengerEventDef.ShowUIDialog, ShowDialog);
+            Messenger<string, string, Action, Action, Action, bool>.RemoveListener(MessengerEventDef.ShowUIDialog, ShowDialog);
         }
 
         #region ButtonHandler
@@ -82,6 +83,7 @@ namespace Modules.UI
         void CloseClickHandler(GameObject go)
         {
             Root.gameObject.SetActive(false);
+            closeCallBack?.Invoke();
             clearCallBack();
         }
         #endregion
@@ -90,10 +92,12 @@ namespace Modules.UI
         {
             okCallBack = null;
             cancelCallBack = null;
+            closeCallBack = null;
         }
-        void ShowDialog(string title, string content, Action ok, Action cancel,bool mask)
+        void ShowDialog(string title, string content, Action ok, Action cancel,Action close,bool mask)
         {
             Mask.gameObject.SetActive(mask);
+            closeCallBack = close;
             if(ok==null && cancel==null)
             {
                 OneButtonGroup.gameObject.SetActive(false);

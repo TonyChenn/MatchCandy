@@ -120,4 +120,17 @@ public class PlayerPrefsUtil
         }
     }
 
+    public static string UserLevelInfo
+    {
+        get
+        {
+            if (!PlayerPrefs.HasKey("UserLevelInfo"))
+                PlayerPrefs.SetString("UserLevelInfo", "0");
+            return PlayerPrefs.GetString("UserLevelInfo");
+        }
+        set
+        {
+            PlayerPrefs.SetString("UserLevelInfo", value);
+        }
+    }
 }

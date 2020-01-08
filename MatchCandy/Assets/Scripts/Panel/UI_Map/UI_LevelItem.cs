@@ -40,29 +40,30 @@ namespace Modules.UI
         {
             int id = level.levelId;
             levelDaoConfig = level;
-            userLevelConfig = BmobUtil.Singlton.GetUserLevelConfigById(id);
-            if(userLevelConfig != null)
+            char[] infoArray = PlayerPrefsUtil.UserLevelInfo.ToCharArray();
+            Debug.Log(PlayerPrefsUtil.UserLevelInfo);
+            if (id <= infoArray.Length)
             {
-                int starCount = userLevelConfig.starCount.Get();
-                if(starCount==3)
+                char starCount = infoArray[id - 1];
+                if (starCount == '3')
                 {
                     Star1.gameObject.SetActive(true);
                     Star2.gameObject.SetActive(true);
                     Star3.gameObject.SetActive(true);
                 }
-                else if(starCount==2)
+                else if (starCount == '2')
                 {
                     Star1.gameObject.SetActive(true);
                     Star2.gameObject.SetActive(true);
                     Star3.gameObject.SetActive(false);
                 }
-                else if(starCount==1)
+                else if (starCount == '1')
                 {
                     Star1.gameObject.SetActive(true);
                     Star2.gameObject.SetActive(false);
                     Star3.gameObject.SetActive(false);
                 }
-                else if(starCount==0)
+                else if (starCount == '0')
                 {
                     Star1.gameObject.SetActive(false);
                     Star2.gameObject.SetActive(false);
@@ -73,28 +74,11 @@ namespace Modules.UI
             }
             else
             {
-                //如果是第一关 || 上一关卡有数据
-                if(id==1)
-                {
-                    Lock.gameObject.SetActive(false);
-                    canEnterLevel = true;
-                    Star1.gameObject.SetActive(false);
-                    Star2.gameObject.SetActive(false);
-                    Star3.gameObject.SetActive(false);
-                }
-                else if (BmobUtil.Singlton.GetUserLevelConfigById(id-1)!=null)
-                {
-                    Lock.gameObject.SetActive(false);
-                    canEnterLevel = true;
-                    Star1.gameObject.SetActive(false);
-                    Star2.gameObject.SetActive(false);
-                    Star3.gameObject.SetActive(false);
-                }
-                else
-                {
-                    Lock.gameObject.SetActive(true);
-                    canEnterLevel = false;
-                }
+                Star1.gameObject.SetActive(false);
+                Star2.gameObject.SetActive(false);
+                Star3.gameObject.SetActive(false);
+                Lock.gameObject.SetActive(true);
+                canEnterLevel = false;
             }
             Level.text = level.levelId.ToString();
         }

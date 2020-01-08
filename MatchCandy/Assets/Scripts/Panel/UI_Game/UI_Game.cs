@@ -40,10 +40,7 @@ namespace Modules.UI
         {
             base.InitWndOnAwake();
             anchorRightTrans.localPosition = new Vector3(150f, 0, 0);
-            UIEventListener.Get(propArray[0].propTrans.gameObject).onClick = OnUseClearCol;
-            UIEventListener.Get(propArray[1].propTrans.gameObject).onClick = OnUseClearRow;
-            UIEventListener.Get(propArray[2].propTrans.gameObject).onClick = OnUseClock;
-            UIEventListener.Get(propArray[3].propTrans.gameObject).onClick = OnUseHammer;
+            gameUser = BmobUtil.Singlton.CurUser;
         }
         public override void OnShowWnd(UIWndData wndData)
         {
@@ -76,7 +73,21 @@ namespace Modules.UI
         {
             if(Input.GetKeyDown(KeyCode.Escape))
             {
-                UIMessageMgr.ShowDialog("提示", "你确定要退出游戏吗？", () => { Close(); }, true);
+                gameState = GameState.GamePause;
+                UIMessageMgr.ShowDialog(
+                    "提示", 
+                    "你确定要退出游戏吗？", 
+                    () => 
+                    {
+                        Close();
+                        if(UIManger.IsUIShowing(UIType.UI_CountPanel))
+                        {
+                            UIManger.HideUIWnd(UIType.UI_CountPanel);
+                        };
+                    },
+                    null,
+                    () => { gameState = GameState.GamePlaying; },
+                    true);
             }
 
             if(gameScore<GameMap.Singlton.score)
@@ -100,64 +111,41 @@ namespace Modules.UI
 
             if(gameState==GameState.GamePlaying && count<=0)
             {
+                BmobUtil.Singlton.UpdateUserInfo(gameUser);
                 gameState = GameState.GameOver;
+                int starCount = 0;
+                if (gameScore >= config.star3)
+                    starCount = 3;
+                else if (gameScore >= config.star2)
+                    starCount = 2;
+                else if (gameScore >= config.star1)
+                    starCount = 1;
+                
+
+                if(starCount>0)
+                {
+                    UIMessageMgr.ShowDialog("恭喜过关", string.Format("我的得分：[F94545FF]{0}[-]\n[FFFFFFFF]目标得分：[-]{1}", Score.text,config.star1), okActionHandler, null, okActionHandler, true);
+                    char[] userLevelInfo = PlayerPrefsUtil.UserLevelInfo.ToCharArray();
+
+                    userLevelInfo[config.levelId - 1] = char.Parse(starCount.ToString());
+                    string str = new string(userLevelInfo);
+
+                    Debug.Log(str + "\tAll\t" + PlayerPrefsUtil.UserLevelInfo);
+
+                    if (str.Length == config.levelId)
+                        str += "0";
+                    PlayerPrefsUtil.UserLevelInfo = str;
+                    //BmobUtil.Singlton.InsertLevel(gameUser.username, config.levelId, starCount);
+                }
+                else
+                    UIMessageMgr.ShowDialog("过关失败", string.Format("我的得分：[F94545FF]{0}[-]\n[FFFFFFFF]目标得分：[-]{1}", Score.text, config.star1), okActionHandler, null, okActionHandler, true);
             }
         }
-
-        #region Button
-        private void OnUseClearRow(GameObject go)
+        void okActionHandler()
         {
-            if (gameUser.clearRow.Get() < 1)
-                UIMessageMgr.ToastMsg("无道具");
-            else
-            {
-                //UIMessageMgr.ShowDialog("提示", "你确定要使用1个行消除道具吗？", () =>
-                //{
-                //    Messenger<PropsType>.Broadcast(MessengerEventDef.Str_UseProps, PropsType.ClearRow);
-                //}, false);
-            }
+            Close();
+            UIManger.ShowUISync(UIType.UI_MapPanel, null);
         }
-
-        private void OnUseClearCol(GameObject go)
-        {
-            if (gameUser.clearCol.Get() < 1)
-                UIMessageMgr.ToastMsg("无道具");
-            else
-            {
-                //UIMessageMgr.ShowDialog("提示", "你确定要使用1个行消除道具吗？", () =>
-                //{
-                //    Messenger<PropsType>.Broadcast(MessengerEventDef.Str_UseProps, PropsType.ClearCol);
-                //}, false);
-            }
-        }
-
-        private void OnUseClock(GameObject go)
-        {
-            if (gameUser.clock.Get() < 1)
-                UIMessageMgr.ToastMsg("无道具");
-            else
-            {
-                //UIMessageMgr.ShowDialog("提示", "你确定要使用1个行消除道具吗？", () =>
-                //{
-                //    Messenger<PropsType>.Broadcast(MessengerEventDef.Str_UseProps, PropsType.Clock);
-                //}, false);
-            }
-        }
-
-        private void OnUseHammer(GameObject go)
-        {
-            if (gameUser.hammer.Get() < 1)
-                UIMessageMgr.ToastMsg("无道具");
-            else
-            {
-                //UIMessageMgr.ShowDialog("提示", "你确定要使用1个行消除道具吗？", () =>
-                //{
-                //    Messenger<PropsType>.Broadcast(MessengerEventDef.Str_UseProps, PropsType.Hammer);
-                //}, false);
-            }
-        }
-
-        #endregion
 
         #region Messenger
         public override void RegisterMessage()
@@ -173,7 +161,6 @@ namespace Modules.UI
 
         void UpdatePropsCount()
         {
-            gameUser = BmobUtil.Singlton.CurUser;
             propArray[0].countLabel.text = gameUser.clearCol.Get().ToString();
             propArray[1].countLabel.text = gameUser.clearRow.Get().ToString();
             propArray[2].countLabel.text = gameUser.clock.Get().ToString();

@@ -347,6 +347,7 @@
     <Compile Include="Assets\Live2D\Cubism\Framework\MotionFade\Editor\CubismFadeMotionImporter.cs" />
     <Compile Include="Assets\Live2D\Cubism\Framework\Pose\Editor\CubismPoseMotionImporter.cs" />
     <Compile Include="Assets\Live2D\Cubism\Samples\Editor\ImportCustomization.cs" />
+    <Compile Include="Assets\Scripts\UIFrameWork\Editor\PlayerPrefsTool.cs" />
     <Compile Include="Assets\Scripts\UIFrameWork\Editor\UIFrameworkTools.cs" />
     <Compile Include="Assets\Third\NGUI\Examples\Scripts\InventorySystem\Editor\InvDatabaseInspector.cs" />
     <Compile Include="Assets\Third\NGUI\Examples\Scripts\InventorySystem\Editor\InvFindItem.cs" />
@@ -465,6 +466,8 @@
     <None Include="Assets\Live2D\Cubism\Rendering\Resources\Live2D\Cubism\Shaders\Mask.shader" />
     <None Include="Assets\Live2D\Cubism\Rendering\Resources\Live2D\Cubism\Shaders\Unlit.shader" />
     <None Include="Assets\Shader\NGUIParticleSystem.shader" />
+    <None Include="Assets\Shader\Particle Add.shader" />
+    <None Include="Assets\Shader\Particle Alpha Blend.shader" />
     <None Include="Assets\Third\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
     <None Include="Assets\Third\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
     <None Include="Assets\Third\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />

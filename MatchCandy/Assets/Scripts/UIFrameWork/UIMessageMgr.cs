@@ -19,9 +19,14 @@ public class UIMessageMgr
     {
         ShowDialog(title, content, ok, null, mask);
     }
-    public static void ShowDialog(string title,string content,Action ok,Action cancel,bool mask)
+
+    public static void ShowDialog(string title, string content, Action ok,Action cancel, bool mask)
     {
-        Messenger<string, string, Action, Action,bool>.Broadcast(MessengerEventDef.ShowUIDialog, title, content, ok, cancel,mask);
+        ShowDialog(title, content, ok, cancel, null, mask);
+    }
+    public static void ShowDialog(string title,string content,Action ok,Action cancel,Action close, bool mask)
+    {
+        Messenger<string, string, Action, Action, Action, bool>.Broadcast(MessengerEventDef.ShowUIDialog, title, content, ok, cancel, close, mask);
     }
     #endregion
 

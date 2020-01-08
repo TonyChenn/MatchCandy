@@ -28,7 +28,7 @@ public class PropsItem : UIDragDropItem
         if(isPressed)
         {
             transform.GetComponent<UIWidget>().depth += 2;
-            transform.localScale = new Vector3(.8f, .8f, .8f);
+            transform.localScale = new Vector3(.7f, .7f, .7f);
         }
         else
         {

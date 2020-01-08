@@ -152,29 +152,6 @@ namespace Bmob.util
             }
         }
 
-        public void InsertLevel(string userName, int levelID, int starCount)
-        {
-            UserLevel level = new UserLevel();
-            level.userName = userName;
-            level.levelId = levelID;
-            level.starCount = starCount;
-            Bmob.Create("UserLevel", level, (resp, ex) =>
-            {
-                if (ex != null)
-                    UIMessageMgr.ToastMsg("关卡" + level.levelId + "已开启");
-                else
-                {
-                    UIMessageMgr.ToastMsg("关卡加载失败");
-                    Debug.LogError("注册开启第一关失败，原因：" + ex.Message);
-                }
-            });
-        }
-
-        public void MotifyLevel(string userName, int LevelId, int starCount)
-        {
-
-        }
-
         public UserLevel GetUserLevelConfigById(int levelId)
         {
             if (UserLevelDict.ContainsKey(levelId))
