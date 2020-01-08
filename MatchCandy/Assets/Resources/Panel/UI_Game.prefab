@@ -36,8 +36,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4676592837281078}
   - component: {fileID: 114028026489693724}
-  - component: {fileID: 114394347841473870}
-  - component: {fileID: 65842088568470104}
   m_Layer: 8
   m_Name: Icon
   m_TagString: Untagged
@@ -105,6 +103,8 @@ GameObject:
   - component: {fileID: 4891522072913176}
   - component: {fileID: 114930554069546742}
   - component: {fileID: 114594445203656620}
+  - component: {fileID: 65981933790411780}
+  - component: {fileID: 114733953148249562}
   m_Layer: 8
   m_Name: clock
   m_TagString: Untagged
@@ -1014,18 +1014,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 100, y: 100, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65842088568470104
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1025828509699302}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 96, y: 96, z: 0}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65937576318594998
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1038,6 +1026,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 96, y: 96, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65981933790411780
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1098310158449718}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 96.30033, y: 95.88169, z: 1.0000036}
+  m_Center: {x: -0.2769686, y: 0.19038375, z: -0.0000018006684}
 --- !u!65 &65996965139826550
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1507,23 +1507,6 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
---- !u!114 &114394347841473870
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1025828509699302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa6eebb37e13c9e4d9ce00a4557cf6ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  restriction: 0
-  clickToDrag: 0
-  cloneOnDrag: 1
-  interactable: 1
-  pressAndHoldDelay: 1
-  type: 2
 --- !u!114 &114410313922673024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2274,6 +2257,21 @@ MonoBehaviour:
   mAtlas: {fileID: 11400000, guid: a6821c80f7e846a4d9f291a4389ed003, type: 2}
   mSpriteName: bg_grey
   mFillCenter: 1
+--- !u!114 &114733953148249562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1098310158449718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c041f61e4a9fbf4e830210f5d933ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenTarget: {fileID: 0}
+  hover: {x: 1, y: 1, z: 1}
+  pressed: {x: 0.8, y: 0.8, z: 0.8}
+  duration: 0.2
 --- !u!114 &114757993141589138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2482,7 +2480,6 @@ MonoBehaviour:
     countLabel: {fileID: 114808343030402006}
   - propTrans: {fileID: 4717874721514448}
     countLabel: {fileID: 114386468604851428}
-  gameState: 1
 --- !u!114 &114784585953027416
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -68,7 +68,16 @@ namespace Modules.UI
         {
             gameMap = this;
             AddListener();
-
+            initMap();
+            var list = new List<string>();
+            int count = Random.Range(2, 5);
+            for (int i = 0; i < count; i++)
+            {
+                int x = Random.Range(0, row);
+                int y = Random.Range(0, colum);
+                list.Add(x + "," + y);
+            }
+            CreateWall(list);
         }
 
 
@@ -79,12 +88,6 @@ namespace Modules.UI
 
         void startGame()
         {
-            initMap();
-            ///虚拟数据
-            var list = new List<string>();
-            list.Add("2,3");
-            list.Add("5,4");
-            CreateWall(list);
             StartCoroutine(FillAllMap());
         }
 
@@ -757,6 +760,7 @@ namespace Modules.UI
                     DeleteCandyAndCreateByType(candy, CandyType.CLEAR_ROW);
                     int count = user.clearRow.Get();
                     user.clearRow = count - 1;
+                    BmobUtil.Singlton.UpdateUserInfo(user);
                 }
                 else
                     UIMessageMgr.ToastMsg("道具不足");
@@ -768,19 +772,10 @@ namespace Modules.UI
                     DeleteCandyAndCreateByType(candy, CandyType.CLEAR_COLUM);
                     int count = user.clearCol.Get();
                     user.clearCol = count - 1;
+                    BmobUtil.Singlton.UpdateUserInfo(user);
                 }
                 else
                     UIMessageMgr.ToastMsg("道具不足");
-            }
-            else if(type==PropsType.Clock)
-            {
-                if(user.clock.Get()>1)
-                {
-
-                }
-                else
-                    UIMessageMgr.ToastMsg("道具不足");
-
             }
             else if(type==PropsType.Hammer)
             {
@@ -789,6 +784,7 @@ namespace Modules.UI
                     DeleteCandyAndCreateByType(candy, CandyType.TYPE_NULL);
                     int count = user.hammer.Get();
                     user.hammer = count - 1;
+                    BmobUtil.Singlton.UpdateUserInfo(user);
                 }
                 else
                     UIMessageMgr.ToastMsg("道具不足");

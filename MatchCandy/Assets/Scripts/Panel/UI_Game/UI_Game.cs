@@ -26,8 +26,6 @@ namespace Modules.UI
 
         int gameScore = 0;
         int count = 0;
-        //游戏玩法
-        int GameMode = 0;
         GameUser gameUser = null;
         
 
@@ -40,8 +38,24 @@ namespace Modules.UI
         {
             base.InitWndOnAwake();
             anchorRightTrans.localPosition = new Vector3(150f, 0, 0);
+            UIEventListener.Get(propArray[2].propTrans.gameObject).onClick = OnClockClick;
             gameUser = BmobUtil.Singlton.CurUser;
         }
+
+        private void OnClockClick(GameObject go)
+        {
+            GameUser user = BmobUtil.Singlton.CurUser;
+            if(user.clock.Get()>1)
+            {
+                count += 5;
+                Messenger.Broadcast(MessengerEventDef.Str_UpdatePropsCount);
+                BmobUtil.Singlton.UpdateUserInfo(user);
+            }
+            else
+                UIMessageMgr.ToastMsg("道具不足");
+            Messenger<PropsType, Candy>.Broadcast(MessengerEventDef.Str_UseProps, PropsType.Clock, null);
+        }
+
         public override void OnShowWnd(UIWndData wndData)
         {
             base.OnShowWnd(wndData);
@@ -111,7 +125,10 @@ namespace Modules.UI
 
             if(gameState==GameState.GamePlaying && count<=0)
             {
+                int coinCount = gameUser.coin.Get();
+                gameUser.coin = coinCount + gameScore / 100;
                 BmobUtil.Singlton.UpdateUserInfo(gameUser);
+                Messenger.Broadcast(MessengerEventDef.Str_UpdateCurrency);
                 gameState = GameState.GameOver;
                 int starCount = 0;
                 if (gameScore >= config.star3)

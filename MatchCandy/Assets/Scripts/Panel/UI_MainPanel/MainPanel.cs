@@ -31,7 +31,6 @@ namespace Modules.UI
             base.Awake();
             width = Screen.width;
             height = Screen.height;
-            Debug.Log("Main panel is Loaded!");
         }
         public override void InitWndOnStart()
         {
@@ -58,6 +57,13 @@ namespace Modules.UI
             StartCoroutine(LoadModel());
         }
 
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                UIMessageMgr.ShowDialog("提示", "你确定要退出吗?", () => { Application.Quit(); }, null, true);
+            }
+        }
 
         IEnumerator LoadModel()
         {
@@ -83,7 +89,7 @@ namespace Modules.UI
 
         private void Button2ClickHandler(GameObject go)
         {
-            Debug.Log(2);
+            UIMessageMgr.ToastMsg("学号：1615925462,姓名：郭丽丹");
         }
 
         private void Button3ClickHandler(GameObject go)

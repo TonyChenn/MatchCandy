@@ -36,8 +36,7 @@ public class PropsItem : UIDragDropItem
             transform.localScale = Vector3.one;
         }
     }
-
-    IEnumerator moveCoroutine = null;
+    
     protected override void OnDragDropRelease(GameObject surface)
     {
         base.OnDragDropRelease(surface);

@@ -495,7 +495,7 @@ MonoBehaviour:
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: 24ec751a80abc3c478aee7e7af8dc19c, type: 3}
   mFont: {fileID: 0}
-  mText: "XXX\u7684\u7CD6\u679C\u5C4B"
+  mText: "\u4E39\u4E39\u7684\u7CD6\u679C\u5C4B"
   mFontSize: 100
   mFontStyle: 0
   mAlignment: 0
@@ -553,7 +553,7 @@ MonoBehaviour:
   updateAnchors: 0
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 1559
+  mWidth: 1280
   mHeight: 720
   mDepth: 1
   mMat: {fileID: 0}
@@ -942,14 +942,14 @@ MonoBehaviour:
   updateAnchors: 0
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 1559
+  mWidth: 1280
   mHeight: 720
   mDepth: 0
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.9708333
+  aspectRatio: 1.7777778
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
