@@ -523,6 +523,7 @@
     <None Include="Assets\Third\XLua\Src\Editor\Template\LuaWrapPusher.tpl.txt" />
     <None Include="Assets\Third\XLua\Src\Editor\Template\PackUnpack.tpl.txt" />
     <None Include="Assets\Third\XLua\Src\Editor\Template\TemplateCommon.lua.txt" />
+    <None Include="Assets\XLua\Gen\link.xml" />
     <None Include="Assets\csc.rsp" />
     <None Include="Assets\mcs.rsp" />
   </ItemGroup>

@@ -642,6 +642,11 @@
     <Compile Include="Assets\Third\XLua\Src\TemplateEngine\TemplateEngine.cs" />
     <Compile Include="Assets\Third\XLua\Src\TypeExtensions.cs" />
     <Compile Include="Assets\Third\XLua\Src\Utils.cs" />
+    <Compile Include="Assets\XLua\Gen\DelegatesGensBridge.cs" />
+    <Compile Include="Assets\XLua\Gen\EnumWrap.cs" />
+    <Compile Include="Assets\XLua\Gen\PackUnpack.cs" />
+    <Compile Include="Assets\XLua\Gen\WrapPusher.cs" />
+    <Compile Include="Assets\XLua\Gen\XLuaGenAutoRegister.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Live2D\Cubism\Plugins\RedistributableFiles.txt" />
@@ -707,6 +712,7 @@
     <None Include="Assets\Third\XLua\Src\Editor\Template\LuaWrapPusher.tpl.txt" />
     <None Include="Assets\Third\XLua\Src\Editor\Template\PackUnpack.tpl.txt" />
     <None Include="Assets\Third\XLua\Src\Editor\Template\TemplateCommon.lua.txt" />
+    <None Include="Assets\XLua\Gen\link.xml" />
     <None Include="Assets\csc.rsp" />
     <None Include="Assets\mcs.rsp" />
   </ItemGroup>
